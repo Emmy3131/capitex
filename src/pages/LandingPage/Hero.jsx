@@ -1,4 +1,5 @@
 import { FaShieldAlt, FaChartLine, FaGlobe } from "react-icons/fa";
+import heroBg from '../../assets/bgImage/heroBg.webp';
 
 const Hero = () => {
   return (
@@ -41,11 +42,11 @@ const Hero = () => {
 
         {/* RIGHT VISUAL */}
         <div className="hidden lg:flex justify-center">
-          <div className="relative w-[420px] h-[420px] rounded-full bg-green-600/20 blur-3xl" />
+          <div className=" rounded-full bg-green-600/20 blur-3xl" />
           <img
-            src="/assets/crypto-hero.png"
+            src={heroBg}
             alt="Crypto investment"
-            className="absolute w-[380px] z-10"
+            className="rounded-xl shadow-xl opacity-40 z-10"
           />
         </div>
       </div>

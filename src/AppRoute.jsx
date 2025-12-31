@@ -1,32 +1,35 @@
-import React from 'react'
-import Header from './components/Header.jsx'
-import { BrowserRouter, Router, Route } from 'react-router-dom'
-import Hero from './pages/Hero.jsx'
-import Trust from './pages/Trust.jsx'
-import HowItWorks from './pages/HowItWorks.jsx'
-import InvestmentPlans from './pages/InvestmentPlans.jsx'
-import Testimony from './pages/Testimony.jsx'
-import FAQs from './pages/FAQs.jsx'
-import FinalCTA from './pages/FinalCTA.jsx'
-import Footer from './pages/Footer.jsx'
-import FeaturesAndSecurity from './pages/FeaturesAndSecurity.jsx'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import GuestLayout from "./layout/QuestLayout";
+import AuthLayout from "./layout/AuthLayout";
+import Home from "./pages/LandingPage/Home";
+import AboutUs from "./pages/AboutPage/About";
+import InvestmentPlans from "./pages/InvestmentPage/InvestmentPlans";
+import FAQ from "./pages/FAQPage/FAQs";
+import Support from "./pages/SupportPage/Support";
+import Service from "./pages/ServicePage/Service";
+import Auth from "./pages/AuthPage/Auth";
+
 
 const AppRoute = () => {
   return (
-    <div>
-      <BrowserRouter>
-        <Header />
-        <Hero />
-        <Trust />
-        <HowItWorks />
-        <InvestmentPlans />
-        <FeaturesAndSecurity />
-        <Testimony />
-        <FAQs />
-        <FinalCTA />
-        <Footer />
-      </BrowserRouter>
-    </div>
-  )
-}
-export default AppRoute
+    <BrowserRouter>
+      <Routes>
+        <Route element={<GuestLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/investmentplans" element={<InvestmentPlans />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/services" element={<Service />} />
+        </Route>
+
+        <Route element={<AuthLayout />}>
+          <Route path="/auth" element={<Auth />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default AppRoute;

@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
+import logo from "../assets/logo/logo.png";
+
+
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
@@ -10,11 +17,11 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           {/* LOGO */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <img
-              src="/logo.png"   // put Capitex logo in public/logo.png
+              src={logo}
               alt="Capitex"
-              className="w-8 h-8"
+              className="w-17"
             />
             <span className="text-xl font-bold text-green-600">
               Capitex
@@ -23,22 +30,81 @@ const Header = () => {
 
           {/* DESKTOP NAV */}
           <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-            <li className="hover:text-green-600 cursor-pointer">Home</li>
-            <li className="hover:text-green-600 cursor-pointer">About</li>
-            <li className="hover:text-green-600 cursor-pointer">Investment</li>
-            <li className="hover:text-green-600 cursor-pointer">Services</li>
-            <li className="hover:text-green-600 cursor-pointer">Support</li>
-            <li className="hover:text-green-600 cursor-pointer">FAQ</li>
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                About
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/investmentplans"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                Investment
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/services"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                Services
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/support"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                Support
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/faq"
+                className={({ isActive }) =>
+                  isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
+                }
+              >
+                FAQ
+              </NavLink>
+            </li>
           </ul>
 
           {/* ACTION BUTTONS */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="text-gray-700 hover:text-green-600">
+            <Link to="/auth" className=" text-gray-700">
               Login
-            </button>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+            </Link>
+            <Link to="/auth?tab=signUp" className="bg-green-600 text-white px-2 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
               Get Started
-            </button>
+            </Link>
           </div>
 
           {/* MOBILE MENU ICON */}
@@ -54,26 +120,87 @@ const Header = () => {
         {isOpen && (
           <div className="md:hidden bg-white shadow-lg rounded-lg mt-2 p-4 space-y-4">
             <ul className="space-y-3 text-gray-700 font-medium">
-              <li className="hover:text-green-600">Home</li>
-              <li className="hover:text-green-600">About</li>
-              <li className="hover:text-green-600">Investment</li>
-              <li className="hover:text-green-600">Services</li>
-              <li className="hover:text-green-600">Support</li>
-              <li className="hover:text-green-600">FAQ</li>
+              <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/investmentPlans"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  Investment
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/services"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  Services
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/support"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  Support
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/faq"
+                  className={({ isActive }) =>
+                    isActive ? "text-green-600 font-bold" : "hover:text-green-600"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  FAQ
+                </NavLink>
+              </li>
             </ul>
+         
 
-            <div className="pt-4 border-t flex flex-col gap-3">
-              <button className="w-full text-gray-700">
-                Login
-              </button>
-              <button className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold">
-                Get Started
-              </button>
-            </div>
-          </div>
+        <div className="pt-4 border-t flex flex-col gap-3">
+          <Link to="/auth" className="w-full text-gray-700">
+            Login
+          </Link>
+          <Link to="/auth?tab=signUp" className="bg-green-600 text-white px-2 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+            Get Started
+          </Link>
+        </div>
+      </div>
         )}
-      </nav>
-    </header>
+    </nav>
+    </header >
   );
 };
 

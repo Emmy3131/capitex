@@ -32,7 +32,7 @@ const Testimonials = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900">
-            Trusted by Investors Worldwide
+            What Our Investors Say
           </h2>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
             Thousands of users trust Capitex to manage their crypto investments
