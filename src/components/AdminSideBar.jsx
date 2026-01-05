@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { FaTachometerAlt, FaUsers, FaWallet, FaExchangeAlt, FaChartLine, FaUserCircle, } from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaWallet, FaExchangeAlt, FaChartLine, FaUserCircle,} from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 import Brand from "./Brand";
 
 const AdminSideBar = () => {
@@ -84,9 +85,15 @@ const AdminSideBar = () => {
           Profile
         </NavLink>
 
-        <button>
-          <span className={linkStyle}>Logout</span>
-        </button>
+         <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${linkStyle} ${isActive && activeStyle}`
+          }
+        >
+          <CiLogout className="inline-block mr-3 text-xl" />
+          LogOut
+        </NavLink>
       </nav>
     </aside>
   );
