@@ -83,6 +83,10 @@ const AdminSideBar = () => {
           <FaUserCircle />
           Profile
         </NavLink>
+
+        <button>
+          <span className={linkStyle}>Logout</span>
+        </button>
       </nav>
     </aside>
   );
