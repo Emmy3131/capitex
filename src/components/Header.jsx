@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import logo from "../assets/logo/logo.png";
+import Brand from "./Brand";
 
 
 
@@ -17,16 +18,14 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           {/* LOGO */}
-          <div className="flex items-center">
-            <img
-              src={logo}
-              alt="Capitex"
-              className="w-17"
-            />
-            <span className="text-xl font-bold text-green-600">
-              Capitex
-            </span>
-          </div>
+          {/* LOGO / BRAND */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 hover:opacity-90 transition"
+          >
+            <Brand size="lg" />
+          </Link>
+
 
           {/* DESKTOP NAV */}
           <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
@@ -187,19 +186,19 @@ const Header = () => {
                 </NavLink>
               </li>
             </ul>
-         
 
-        <div className="pt-4 border-t flex flex-col gap-3">
-          <Link to="/auth" className="w-full text-gray-700">
-            Login
-          </Link>
-          <Link to="/auth?tab=signUp" className="bg-green-600 text-white px-2 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
-            Get Started
-          </Link>
-        </div>
-      </div>
+
+            <div className="pt-4 border-t flex flex-col gap-3">
+              <Link to="/auth" className="w-full text-gray-700">
+                Login
+              </Link>
+              <Link to="/auth?tab=signUp" className="bg-green-600 text-white px-2 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+                Get Started
+              </Link>
+            </div>
+          </div>
         )}
-    </nav>
+      </nav>
     </header >
   );
 };

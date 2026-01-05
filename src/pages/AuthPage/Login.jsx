@@ -1,6 +1,18 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (true) {
+      navigate("/admin/dashboard"); // ✅ manual redirect
+    }
+  };
+
+
   return (
     <div className="flex items-center justify-center">
       
@@ -16,7 +28,7 @@ const Login = () => {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleLogin}>
           
           {/* Email */}
           <div>
