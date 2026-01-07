@@ -15,7 +15,7 @@ const DashboardLayout = () => {
 
       <div className="flex-1">
         {/* Top bar (mobile & tablet) */}
-        <header className="lg:hidden bg-white shadow p-4 flex items-center">
+        <header className="lg:hidden bg-white shadow p-4 flex items-center sticky top-0 z-40">
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="text-gray-700 text-xl"
