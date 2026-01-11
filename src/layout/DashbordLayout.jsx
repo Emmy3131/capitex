@@ -7,14 +7,16 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 overflow-x-hidden">
+      {/* Sidebar */}
       <AdminSideBar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="flex-1">
-        {/* Top bar (mobile & tablet) */}
+      {/* Main content */}
+      <div className="flex-1 flex flex-col max-w-full">
+        {/* Top bar (mobile only) */}
         <header className="lg:hidden bg-white shadow p-4 flex items-center sticky top-0 z-40">
           <button
             onClick={() => setIsSidebarOpen(true)}
@@ -25,7 +27,7 @@ const DashboardLayout = () => {
         </header>
 
         {/* Page content */}
-        <main className="p-6">
+        <main className="flex-1 p-4 sm:p-6 overflow-x-hidden">
           <Outlet />
         </main>
       </div>

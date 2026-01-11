@@ -36,7 +36,7 @@ const statusStyle = {
 
 const ManageUsers = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 md:px-0">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">
@@ -48,70 +48,89 @@ const ManageUsers = () => {
       </div>
 
       {/* USERS TABLE */}
-      <div className="bg-white rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-600">
-            <tr>
-              <th className="text-left px-5 py-3">User</th>
-              <th>Email</th>
-              <th>Wallet Balance</th>
-              <th>Status</th>
-              <th className="text-right px-5">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="border-b">
-                {/* User info */}
-                <td className="flex items-center gap-3 px-5 py-3">
-                  <img
-                    src={user.photo}
-                    alt={user.name}
-                    className="w-9 h-9 rounded-full"
-                  />
-                  <span className="font-medium">
-                    {user.name}
-                  </span>
-                </td>
-
-                <td>{user.email}</td>
-                <td>{user.balance}</td>
-
-                {/* Status */}
-                <td>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${statusStyle[user.status]}`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-
-                {/* Actions */}
-                <td className="px-5 text-right space-x-3">
-                  <button className="text-blue-600 hover:text-blue-800">
-                    <FaEye />
-                  </button>
-
-                  <button className="text-green-600 hover:text-green-800">
-                    {user.status === "approved" ? (
-                      <FaToggleOn />
-                    ) : (
-                      <FaToggleOff />
-                    )}
-                  </button>
-
-                  <button className="text-red-600 hover:text-red-800">
-                    <FaTrash />
-                  </button>
-                </td>
+      <div className="bg-white rounded-xl shadow">
+        {/* SCROLL CONTAINER */}
+        <div className="overflow-x-auto max-w-full">
+          <table className="min-w-[900px] w-full text-sm">
+            <thead className="bg-gray-50 text-gray-600 text-left">
+              <tr>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  User
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Email
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Wallet Balance
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Status
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap text-right">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {users.map((user) => (
+                <tr
+                  key={user.id}
+                  className="border-b hover:bg-gray-50"
+                >
+                  {/* User */}
+                  <td className="px-5 py-3 flex items-center gap-3 whitespace-nowrap">
+                    <img
+                      src={user.photo}
+                      alt={user.name}
+                      className="w-9 h-9 rounded-full"
+                    />
+                    <span className="font-medium">
+                      {user.name}
+                    </span>
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap">
+                    {user.email}
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap font-semibold">
+                    {user.balance}
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${statusStyle[user.status]}`}
+                    >
+                      {user.status}
+                    </span>
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap text-right space-x-3">
+                    <button className="text-blue-600 hover:text-blue-800">
+                      <FaEye />
+                    </button>
+
+                    <button className="text-green-600 hover:text-green-800">
+                      {user.status === "approved" ? (
+                        <FaToggleOn />
+                      ) : (
+                        <FaToggleOff />
+                      )}
+                    </button>
+
+                    <button className="text-red-600 hover:text-red-800">
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* USER DETAILS (Design Placeholder) */}
+      {/* USER DETAILS */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold text-lg mb-4">
           User Details
@@ -126,8 +145,7 @@ const ManageUsers = () => {
           <div><strong>Wallet:</strong> ₦250,000</div>
         </div>
 
-        {/* Detail actions */}
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <button className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm">
             Fund Wallet
           </button>

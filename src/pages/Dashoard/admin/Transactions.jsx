@@ -48,68 +48,84 @@ const Transactions = () => {
         </p>
       </div>
 
-      {/* TABLE */}
-      <div className="bg-white rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-gray-600">
-            <tr>
-              <th className="px-5 py-3 text-left">User</th>
-              <th className="px-5 py-3">Type</th>
-              <th className="px-5 py-3">Amount</th>
-              <th className="px-5 py-3">Status</th>
-              <th className="px-5 py-3">Date</th>
-              <th className="px-5 py-3">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {transactions.map((tx) => (
-              <tr
-                key={tx.id}
-                className="border-b hover:bg-gray-50"
-              >
-                <td className="px-5 py-3 flex items-center gap-3">
-                  <img
-                    src={tx.photo}
-                    alt=""
-                    className="w-8 h-8 rounded-full"
-                  />
-                  {tx.user}
-                </td>
-
-                <td className="px-5 py-3 capitalize">
-                  {tx.type}
-                </td>
-
-                <td className="px-5 py-3 font-semibold">
-                  ₦{tx.amount.toLocaleString()}
-                </td>
-
-                <td className="px-5 py-3">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${statusStyle[tx.status]}`}
-                  >
-                    {tx.status}
-                  </span>
-                </td>
-
-                <td className="px-5 py-3">
-                  {tx.date}
-                </td>
-
-                <td className="px-5 py-3">
-                  <button
-                    onClick={() => setSelectedTx(tx)}
-                    className="text-blue-600 hover:underline flex items-center gap-1"
-                  >
-                    <FaEye /> View
-                  </button>
-                </td>
+      
+      <div className="bg-white rounded-xl shadow">
+        {/* Scroll container */}
+        <div className="overflow-x-auto max-w-full">
+          <table className="min-w-[900px] w-full text-sm">
+            <thead className="bg-gray-100 text-gray-600">
+              <tr>
+                <th className="px-5 py-3 text-left whitespace-nowrap">
+                  User
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Type
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Amount
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Status
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Date
+                </th>
+                <th className="px-5 py-3 whitespace-nowrap">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {transactions.map((tx) => (
+                <tr
+                  key={tx.id}
+                  className="border-b hover:bg-gray-50"
+                >
+                  <td className="px-5 py-3 flex items-center gap-3 whitespace-nowrap">
+                    <img
+                      src={tx.photo}
+                      alt=""
+                      className="w-8 h-8 rounded-full"
+                    />
+                    {tx.user}
+                  </td>
+
+                  <td className="px-5 py-3 capitalize whitespace-nowrap">
+                    {tx.type}
+                  </td>
+
+                  <td className="px-5 py-3 font-semibold whitespace-nowrap">
+                    ₦{tx.amount.toLocaleString()}
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${statusStyle[tx.status]}`}
+                    >
+                      {tx.status}
+                    </span>
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap">
+                    {tx.date}
+                  </td>
+
+                  <td className="px-5 py-3 whitespace-nowrap">
+                    <button
+                      onClick={() => setSelectedTx(tx)}
+                      className="text-blue-600 hover:underline flex items-center gap-1"
+                    >
+                      <FaEye /> View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
 
       {/* DETAILS MODAL */}
       {selectedTx && (
