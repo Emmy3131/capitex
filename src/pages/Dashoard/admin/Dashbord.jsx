@@ -46,28 +46,45 @@ const Dashboard = () => {
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      {/* STATS */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl shadow p-5 flex items-center justify-between"
+            className="
+        bg-white rounded-xl shadow
+        p-3 sm:p-5
+        flex items-center justify-between
+      "
           >
-            <div>
-              <p className="text-sm text-gray-500">{item.title}</p>
-              <h3 className="text-xl font-bold text-gray-800">
+            {/* Text */}
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-gray-500 truncate">
+                {item.title}
+              </p>
+              <h3 className="text-sm sm:text-xl font-bold text-gray-800 truncate">
                 {item.value}
               </h3>
             </div>
 
+            {/* Icon */}
             <div
-              className={`w-12 h-12 rounded-full bg-gradient-to-r ${item.color}
-              text-white flex items-center justify-center text-xl`}
+              className={`
+          flex-shrink-0
+          w-8 h-8 sm:w-10 sm:h-10
+          rounded-full
+          bg-gradient-to-r ${item.color}
+          text-white
+          flex items-center justify-center
+          text-sm sm:text-lg
+        `}
             >
               {item.icon}
             </div>
           </div>
         ))}
       </div>
+
 
       {/* QUICK ACTIONS */}
       <div className="bg-white rounded-xl shadow p-6">
