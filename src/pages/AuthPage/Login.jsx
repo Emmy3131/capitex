@@ -20,12 +20,12 @@ const Login = () => {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl">
         
         {/* Logo / Title */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>
           <p className="text-sm text-gray-500 mt-1">
             Login to your Capitex account
           </p>
-        </div>
+        </div> */}
 
         {/* Form */}
         <form className="space-y-5" onSubmit={handleLogin}>

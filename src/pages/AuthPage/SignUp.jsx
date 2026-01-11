@@ -4,17 +4,17 @@ const SignUp = () => {
   return (
     <div className=" flex items-center justify-center">
       
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl">
         
         {/* Header */}
-        <div className="text-center ">
+        {/* <div className="text-center ">
           <h1 className="text-2xl font-bold text-gray-800">
             Create Your Account
           </h1>
           <p className="text-sm text-gray-500">
             Sign up to start investing with Capitex
           </p>
-        </div>
+        </div> */}
 
         {/* Form */}
         <form className="space-y-5">
