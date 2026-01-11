@@ -80,7 +80,7 @@ const Transactions = () => {
               {transactions.map((tx) => (
                 <tr
                   key={tx.id}
-                  className="border-b hover:bg-gray-50"
+                  className="shadow-sm hover:bg-gray-50"
                 >
                   <td className="px-5 py-3 flex items-center gap-3 whitespace-nowrap">
                     <img

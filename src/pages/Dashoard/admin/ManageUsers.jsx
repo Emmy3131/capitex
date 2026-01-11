@@ -76,7 +76,7 @@ const ManageUsers = () => {
               {users.map((user) => (
                 <tr
                   key={user.id}
-                  className="border-b hover:bg-gray-50"
+                  className="shadow-sm hover:bg-gray-50"
                 >
                   {/* User */}
                   <td className="px-5 py-3 flex items-center gap-3 whitespace-nowrap">

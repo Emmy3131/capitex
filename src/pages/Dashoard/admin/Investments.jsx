@@ -78,9 +78,9 @@ const Investments = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y">
+          <tbody className="">
             {investments.map((inv) => (
-              <tr key={inv.id} className="hover:bg-gray-50">
+              <tr key={inv.id} className="hover:bg-gray-50 shadow-sm">
                 <td className="px-5 py-3 whitespace-nowrap font-medium text-gray-800">
                   {inv.user}
                 </td>

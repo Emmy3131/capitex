@@ -116,33 +116,36 @@ const Dashboard = () => {
             Recent Transactions
           </h3>
 
-          <table className="w-full text-sm">
-            <thead className="text-gray-500 border-b">
-              <tr>
-                <th className="text-left py-2">User</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b">
-                <td className="py-2">John Doe</td>
-                <td>Deposit</td>
-                <td>₦150,000</td>
-                <td className="text-green-600">Success</td>
-                <td>12 Aug</td>
-              </tr>
-              <tr>
-                <td className="py-2">Jane Smith</td>
-                <td>Withdrawal</td>
-                <td>₦80,000</td>
-                <td className="text-yellow-500">Pending</td>
-                <td>11 Aug</td>
-              </tr>
-            </tbody>
-          </table>
+          {/* Scroll wrapper */}
+          <div className="overflow-x-auto">
+            <table className="min-w-[700px] w-full text-sm">
+              <thead className="text-gray-500 shadow-sm text-left">
+                <tr>
+                  <th className="px-2">User</th>
+                  <th className="px-2">Type</th>
+                  <th className="px-2">Amount</th>
+                  <th className="px-2">Status</th>
+                  <th className="px-2">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="shadow-sm">
+                  <td className="py-2 px-2">John Doe</td>
+                  <td className="px-2">Deposit</td>
+                  <td className="px-2">₦150,000</td>
+                  <td className="px-2 text-green-600">Success</td>
+                  <td className="px-2">12 Aug</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2">Jane Smith</td>
+                  <td className="px-2">Withdrawal</td>
+                  <td className="px-2">₦80,000</td>
+                  <td className="px-2 text-yellow-500">Pending</td>
+                  <td className="px-2">11 Aug</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Recent Investments */}
@@ -151,35 +154,39 @@ const Dashboard = () => {
             Recent Investments
           </h3>
 
-          <table className="w-full text-sm">
-            <thead className="text-gray-500 border-b">
-              <tr>
-                <th className="text-left py-2">User</th>
-                <th>Plan</th>
-                <th>Amount</th>
-                <th>Profit</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b">
-                <td className="py-2">Michael</td>
-                <td>Gold Plan</td>
-                <td>₦500,000</td>
-                <td>₦75,000</td>
-                <td className="text-blue-600">Active</td>
-              </tr>
-              <tr>
-                <td className="py-2">Sarah</td>
-                <td>Silver Plan</td>
-                <td>₦300,000</td>
-                <td>₦45,000</td>
-                <td className="text-green-600">Completed</td>
-              </tr>
-            </tbody>
-          </table>
+          {/* Scroll wrapper */}
+          <div className="overflow-x-auto">
+            <table className="min-w-[700px] w-full text-sm">
+              <thead className="text-gray-500 shadow-sm text-left">
+                <tr>
+                  <th className=" py-2 px-2">User</th>
+                  <th className="px-2">Plan</th>
+                  <th className="px-2">Amount</th>
+                  <th className="px-2">Profit</th>
+                  <th className="px-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="shadow-sm">
+                  <td className="py-2 px-2">Michael</td>
+                  <td className="px-2">Gold Plan</td>
+                  <td className="px-2">₦500,000</td>
+                  <td className="px-2">₦75,000</td>
+                  <td className="px-2 text-blue-600">Active</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2">Sarah</td>
+                  <td className="px-2">Silver Plan</td>
+                  <td className="px-2">₦300,000</td>
+                  <td className="px-2">₦45,000</td>
+                  <td className="px-2 text-green-600">Completed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
     </div>
   );
 };
