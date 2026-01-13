@@ -6,11 +6,9 @@ const FundUser = ({ user }) => {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">
-          Fund User
+          User Details
         </h1>
-        <p className="text-sm text-gray-500">
-          Credit a user wallet manually
-        </p>
+        
       </div>
 
       {/* CONTENT */}
