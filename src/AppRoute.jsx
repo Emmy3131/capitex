@@ -12,7 +12,6 @@ import Auth from "./pages/AuthPage/Auth";
 
 import Dashboard from "./pages/Dashoard/admin/Dashbord";
 import ManageUsers from "./pages/Dashoard/admin/ManageUsers";
-import FundUser from "./pages/Dashoard/admin/FundUser";
 import Transactions from "./pages/Dashoard/admin/Transactions";
 import Investments from "./pages/Dashoard/admin/Investments";
 import Profile from "./pages/Dashoard/admin/Profile";
@@ -38,7 +37,6 @@ const AppRoute = () => {
         <Route element={<DashboardLayout />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/manage-users" element={<ManageUsers />} />
-          <Route path="/admin/fund-user" element={<FundUser />} />
           <Route path="/admin/transactions" element={<Transactions />} />
           <Route path="/admin/investments" element={<Investments />} />
           <Route path="/admin/profile" element={<Profile />} />

@@ -66,17 +66,6 @@ const AdminSideBar = ({ isOpen, onClose }) => {
           </NavLink>
 
           <NavLink
-            to="/admin/fund-user"
-            onClick={onClose}
-            className={({ isActive }) =>
-              `${linkStyle} ${isActive && activeStyle}`
-            }
-          >
-            <FaWallet />
-            Fund User
-          </NavLink>
-
-          <NavLink
             to="/admin/transactions"
             onClick={onClose}
             className={({ isActive }) =>

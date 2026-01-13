@@ -6,15 +6,6 @@ const SignUp = () => {
       
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl">
         
-        {/* Header */}
-        {/* <div className="text-center ">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Create Your Account
-          </h1>
-          <p className="text-sm text-gray-500">
-            Sign up to start investing with Capitex
-          </p>
-        </div> */}
 
         {/* Form */}
         <form className="space-y-5">
@@ -27,6 +18,18 @@ const SignUp = () => {
             <input
               type="text"
               placeholder="John Doe"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Phone
+            </label>
+            <input
+              type="number"
+              placeholder="070110000000"
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>

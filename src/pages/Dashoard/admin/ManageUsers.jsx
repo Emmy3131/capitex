@@ -1,4 +1,6 @@
 import { FaEye, FaTrash, FaToggleOn, FaToggleOff } from "react-icons/fa";
+import { useState } from "react";
+import FundUser from "../../../components/modals/FundUser";
 
 const users = [
   {
@@ -35,6 +37,8 @@ const statusStyle = {
 };
 
 const ManageUsers = () => {
+  const [selectUser, setSelectUser] = useState(null);
+  const closeModal = () => setSelectUser(null);
   return (
     <div className="space-y-6 px-4 md:px-0">
       {/* Header */}
@@ -107,9 +111,13 @@ const ManageUsers = () => {
                   </td>
 
                   <td className="px-5 py-3 whitespace-nowrap text-right space-x-3">
-                    <button className="text-blue-600 hover:text-blue-800">
+                    <button
+                      onClick={() => setSelectUser(user)}
+                      className="text-blue-600 hover:text-blue-800"
+                    >
                       <FaEye />
                     </button>
+
 
                     <button className="text-green-600 hover:text-green-800">
                       {user.status === "approved" ? (
@@ -130,8 +138,31 @@ const ManageUsers = () => {
         </div>
       </div>
 
+      {/* FUND USER MODAL */}
+      {selectUser && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
+          <div className="bg-white rounded-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto relative">
+
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-xl"
+            >
+              ✕
+            </button>
+
+            {/* Modal Content */}
+            <div className="p-6">
+              <FundUser user={selectUser} />
+            </div>
+
+          </div>
+        </div>
+      )}
+
+
       {/* USER DETAILS */}
-      <div className="bg-white rounded-xl shadow p-6">
+      {/* <div className="bg-white rounded-xl shadow p-6">
         <h2 className="font-semibold text-lg mb-4">
           User Details
         </h2>
@@ -156,7 +187,7 @@ const ManageUsers = () => {
             Delete User
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -15,10 +15,10 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center">
-      
+
       {/* Card */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl">
-        
+
         {/* Logo / Title */}
         {/* <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>
@@ -29,7 +29,7 @@ const Login = () => {
 
         {/* Form */}
         <form className="space-y-5" onSubmit={handleLogin}>
-          
+
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -56,9 +56,13 @@ const Login = () => {
 
           {/* Forgot password */}
           <div className="flex justify-end">
-            <a href="#" className="text-sm text-green-600 hover:underline">
+            <Link
+              to="/auth?tab=forgot"
+              className="text-sm text-green-600 hover:underline"
+            >
               Forgot password?
-            </a>
+            </Link>
+
           </div>
 
           {/* Button */}
