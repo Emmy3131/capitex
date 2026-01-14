@@ -7,11 +7,12 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-gray-100 overflow-x-hidden">
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* Sidebar */}
       <AdminSideBar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
+        
       />
 
       {/* Main content */}
@@ -28,7 +29,7 @@ const DashboardLayout = () => {
 
 
         {/* Page content */}
-        <main className="flex-1 p-4 sm:p-6 pt-16 overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6">
           <Outlet />
         </main>
       </div>
