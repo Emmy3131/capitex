@@ -46,7 +46,6 @@ const Dashboard = () => {
       </div>
 
       {/* STATS */}
-      {/* STATS */}
       <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((item, index) => (
           <div
