@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
-import AdminSideBar from "../components/AdminSideBar";
+import SideBar from "../components/SideBar";
 import { Outlet } from "react-router-dom";
+import UserInfo from "../components/UserInfo";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -9,7 +10,7 @@ const DashboardLayout = () => {
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* Sidebar */}
-      <AdminSideBar
+      <SideBar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         
@@ -18,13 +19,14 @@ const DashboardLayout = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col max-w-full">
         {/* Top bar (mobile only) */}
-        <header className="lg:hidden bg-white shadow p-4 flex items-center fixed top-0 left-0 right-0 z-40">
+        <header className="lg:hidden bg-white shadow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-40">
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="text-gray-700 text-xl"
           >
             <FaBars />
           </button>
+           <UserInfo isMobile />
         </header>
 
 

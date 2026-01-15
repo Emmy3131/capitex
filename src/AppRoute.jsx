@@ -10,11 +10,16 @@ import Support from "./pages/SupportPage/Support";
 import Service from "./pages/ServicePage/Service";
 import Auth from "./pages/AuthPage/Auth";
 
-import Dashboard from "./pages/Dashoard/admin/Dashbord";
+import AdminDashboard from "./pages/Dashoard/admin/AdminDashbord";
 import ManageUsers from "./pages/Dashoard/admin/ManageUsers";
-import Transactions from "./pages/Dashoard/admin/Transactions";
-import Investments from "./pages/Dashoard/admin/Investments";
-import Profile from "./pages/Dashoard/admin/Profile";
+import AdminTransactions from "./pages/Dashoard/admin/AdminTransactions";
+import AdminInvestments from "./pages/Dashoard/admin/AdminInvestments";
+import AdminProfile from "./pages/Dashoard/admin/AdminProfile";
+
+import UserDashboard from "./pages/Dashoard/user/UserDashbord";
+import UserInvestments from "./pages/Dashoard/user/UserInvestment";
+import UserTransactions from "./pages/Dashoard/user/UserTransactions";
+import UserSettings from "./pages/Dashoard/user/UserSettings";
 
 
 const AppRoute = () => {
@@ -34,13 +39,21 @@ const AppRoute = () => {
           <Route path="/auth" element={<Auth />} />
         </Route>
 
-        <Route element={<DashboardLayout />}>
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/manage-users" element={<ManageUsers />} />
-          <Route path="/admin/transactions" element={<Transactions />} />
-          <Route path="/admin/investments" element={<Investments />} />
-          <Route path="/admin/profile" element={<Profile />} />
+        <Route path="/admin" element={<DashboardLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="manage-users" element={<ManageUsers />} />
+          <Route path="transactions" element={<AdminTransactions />} />
+          <Route path="investments" element={<AdminInvestments />} />
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
+
+        <Route path="/" element={<DashboardLayout />}>
+          <Route path="dashboard" element={<UserDashboard />} />
+          <Route path="investments" element={<UserInvestments />} />
+          <Route path="transactions" element={<UserTransactions />} />
+          <Route path="settings" element={<UserSettings />} />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );

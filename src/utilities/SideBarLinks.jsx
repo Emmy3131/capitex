@@ -1,0 +1,26 @@
+import {
+  FaTachometerAlt,
+  FaUsers,
+  FaExchangeAlt,
+  FaChartLine,
+  FaUserCircle,
+  FaCog,
+} from "react-icons/fa";
+
+const SidebarLinks = {
+  admin: [
+    { to: "/admin/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
+    { to: "/admin/manage-users", label: "Users", icon: <FaUsers /> },
+    { to: "/admin/transactions", label: "Transactions", icon: <FaExchangeAlt /> },
+    { to: "/admin/investments", label: "Investments", icon: <FaChartLine /> },
+    { to: "/admin/profile", label: "Profile", icon: <FaUserCircle /> },
+  ],
+  user: [
+    { to: "/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
+    { to: "/investments", label: "Investments", icon: <FaChartLine /> },
+    { to: "/transactions", label: "Transactions", icon: <FaExchangeAlt /> },
+    { to: "/settings", label: "Settings", icon: <FaCog /> },
+  ],
+};
+
+export default SidebarLinks;

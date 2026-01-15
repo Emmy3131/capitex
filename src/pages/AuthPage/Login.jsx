@@ -1,44 +1,54 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser} from "../../utilities/auth.js";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = (e) => {
     e.preventDefault();
 
-    if (true) {
-      navigate("/admin/dashboard"); // ✅ manual redirect
+    try {
+      const user = loginUser(form.email, form.password);
+
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      alert(error.message);
     }
   };
 
 
   return (
     <div className="flex items-center justify-center">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
 
-      {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl">
-
-        {/* Logo / Title */}
-        {/* <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Login to your Capitex account
-          </p>
-        </div> */}
-
-        {/* Form */}
         <form className="space-y-5" onSubmit={handleLogin}>
-
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email address
             </label>
             <input
+              name="email"
               type="email"
-              placeholder="you@example.com"
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              value={form.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg
+              focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -48,9 +58,13 @@ const Login = () => {
               Password
             </label>
             <input
+              name="password"
               type="password"
-              placeholder="••••••••"
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              value={form.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg
+              focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -62,26 +76,26 @@ const Login = () => {
             >
               Forgot password?
             </Link>
-
           </div>
 
-          {/* Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition shadow-md"
+            className="w-full bg-green-600 text-white py-3 rounded-lg
+            font-medium hover:bg-green-700 transition shadow-md"
           >
             Login
           </button>
         </form>
 
-        {/* Footer */}
         <div className="text-center mt-6 text-sm text-gray-600">
           Don’t have an account?{" "}
-          <Link to="/auth?tab=signUp" className="text-green-600 font-medium hover:underline">
+          <Link
+            to="/auth?tab=signUp"
+            className="text-green-600 font-medium hover:underline"
+          >
             Sign up
           </Link>
         </div>
-
       </div>
     </div>
   );
