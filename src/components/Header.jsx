@@ -2,8 +2,6 @@ import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
-import logo from "../assets/logo/logo.png";
 import Brand from "./Brand";
 
 
