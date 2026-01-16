@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import GuestLayout from "./layout/QuestLayout";
 import AuthLayout from "./layout/AuthLayout";
 import DashboardLayout from "./layout/DashbordLayout";
+
 import Home from "./pages/LandingPage/Home";
 import AboutUs from "./pages/AboutPage/About";
 import InvestmentPlans from "./pages/InvestmentPage/InvestmentPlans";
@@ -24,13 +26,12 @@ import UserSettings from "./pages/Dashoard/user/UserSettings";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AuthGuard from "./pages/AuthPage/AuthGuard";
 
-
 const AppRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Public Pages */}
+        {/* ===== PUBLIC PAGES ===== */}
         <Route element={<GuestLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
@@ -40,7 +41,7 @@ const AppRoute = () => {
           <Route path="/services" element={<Service />} />
         </Route>
 
-        {/* Auth */}
+        {/* ===== AUTH (LOGIN / REGISTER) ===== */}
         <Route
           element={
             <AuthGuard>
@@ -51,31 +52,41 @@ const AppRoute = () => {
           <Route path="/auth" element={<Auth />} />
         </Route>
 
-
-        {/* Admin Protected */}
-        <Route element={<ProtectedRoute role="admin" />}>
-          <Route path="/admin" element={<DashboardLayout />}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="manage-users" element={<ManageUsers />} />
-            <Route path="transactions" element={<AdminTransactions />} />
-            <Route path="investments" element={<AdminInvestments />} />
-            <Route path="profile" element={<AdminProfile />} />
-          </Route>
+        {/* ===== USER DASHBOARD ===== */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/investments" element={<UserInvestments />} />
+          <Route path="/transactions" element={<UserTransactions />} />
+          <Route path="/settings" element={<UserSettings />} />
         </Route>
 
-        {/* User Protected */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<DashboardLayout />}>
-            <Route path="dashboard" element={<UserDashboard />} />
-            <Route path="investments" element={<UserInvestments />} />
-            <Route path="transactions" element={<UserTransactions />} />
-            <Route path="settings" element={<UserSettings />} />
-          </Route>
+
+        {/* ===== ADMIN DASHBOARD ===== */}
+        <Route
+          element={
+            <ProtectedRoute adminOnly>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/manage-users" element={<ManageUsers />} />
+          <Route path="/admin/transactions" element={<AdminTransactions />} />
+          <Route path="/admin/investments" element={<AdminInvestments />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
         </Route>
+
+        {/* ===== FALLBACK ===== */}
+        <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>
     </BrowserRouter>
-
   );
 };
 

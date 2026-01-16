@@ -1,11 +1,14 @@
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
-  const activeUser = JSON.parse(localStorage.getItem("user"));
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  if (!activeUser) {
+  if (!user) {
     return <Navigate to="/auth" replace />;
+  }
+
+  if (adminOnly && user.role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

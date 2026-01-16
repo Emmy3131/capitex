@@ -4,7 +4,9 @@ const AuthGuard = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return user.role === "admin"
+      ? <Navigate to="/admin/dashboard" replace />
+      : <Navigate to="/dashboard" replace />;
   }
 
   return children;
