@@ -21,9 +21,9 @@ const Login = () => {
       const user = loginUser(form.email, form.password);
 
       if (user.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
+        navigate("/admin/dashboard");
       } else {
-        navigate("/dashboard", { replace: true });
+        navigate("/dashboard",);
 
       }
     } catch (error) {
