@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../utilities/auth.js";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const fileToBase64 = (file) =>
@@ -109,23 +113,47 @@ const SignUp = () => {
             required
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
           />
+
           {/* Password */}
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
-          <input
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 pr-10"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          {/* Confirm Password */}
+          <div className="relative">
+            <input
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 pr-10"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
           {/* Gender */}
           <select
             name="gender"
