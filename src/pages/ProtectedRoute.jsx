@@ -1,20 +1,14 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ role }) => {
+const ProtectedRoute = ({ children }) => {
   const activeUser = JSON.parse(localStorage.getItem("user"));
 
- 
   if (!activeUser) {
     return <Navigate to="/auth" replace />;
   }
 
- 
-  if (role && activeUser.role !== role) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <Outlet />;
+  return children;
 };
 
 export default ProtectedRoute;
-
