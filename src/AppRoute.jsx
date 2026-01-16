@@ -22,6 +22,7 @@ import UserTransactions from "./pages/Dashoard/user/UserTransactions";
 import UserSettings from "./pages/Dashoard/user/UserSettings";
 
 import ProtectedRoute from "./pages/ProtectedRoute";
+import AuthGuard from "./pages/AuthPage/AuthGuard";
 
 
 const AppRoute = () => {
@@ -41,7 +42,9 @@ const AppRoute = () => {
 
         {/* Auth */}
         <Route element={<AuthLayout />}>
-          <Route path="/auth" element={<Auth />} />
+         <AuthGuard>
+           <Route path="/auth" element={<Auth />} />
+         </AuthGuard>
         </Route>
 
         {/* Admin Protected */}
