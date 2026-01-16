@@ -41,11 +41,16 @@ const AppRoute = () => {
         </Route>
 
         {/* Auth */}
-        <Route element={<AuthLayout />}>
-         <AuthGuard>
-           <Route path="/auth" element={<Auth />} />
-         </AuthGuard>
+        <Route
+          element={
+            <AuthGuard>
+              <AuthLayout />
+            </AuthGuard>
+          }
+        >
+          <Route path="/auth" element={<Auth />} />
         </Route>
+
 
         {/* Admin Protected */}
         <Route element={<ProtectedRoute role="admin" />}>
