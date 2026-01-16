@@ -21,11 +21,15 @@ import UserInvestments from "./pages/Dashoard/user/UserInvestment";
 import UserTransactions from "./pages/Dashoard/user/UserTransactions";
 import UserSettings from "./pages/Dashoard/user/UserSettings";
 
+import ProtectedRoute from "./pages/ProtectedRoute";
+
 
 const AppRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* Public Pages */}
         <Route element={<GuestLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
@@ -35,27 +39,35 @@ const AppRoute = () => {
           <Route path="/services" element={<Service />} />
         </Route>
 
+        {/* Auth */}
         <Route element={<AuthLayout />}>
           <Route path="/auth" element={<Auth />} />
         </Route>
 
-        <Route path="/admin" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="manage-users" element={<ManageUsers />} />
-          <Route path="transactions" element={<AdminTransactions />} />
-          <Route path="investments" element={<AdminInvestments />} />
-          <Route path="profile" element={<AdminProfile />} />
+        {/* Admin Protected */}
+        <Route element={<ProtectedRoute role="admin" />}>
+          <Route path="/admin" element={<DashboardLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="manage-users" element={<ManageUsers />} />
+            <Route path="transactions" element={<AdminTransactions />} />
+            <Route path="investments" element={<AdminInvestments />} />
+            <Route path="profile" element={<AdminProfile />} />
+          </Route>
         </Route>
 
-        <Route path="/" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<UserDashboard />} />
-          <Route path="investments" element={<UserInvestments />} />
-          <Route path="transactions" element={<UserTransactions />} />
-          <Route path="settings" element={<UserSettings />} />
+        {/* User Protected */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<DashboardLayout />}>
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="investments" element={<UserInvestments />} />
+            <Route path="transactions" element={<UserTransactions />} />
+            <Route path="settings" element={<UserSettings />} />
+          </Route>
         </Route>
 
       </Routes>
     </BrowserRouter>
+
   );
 };
 
