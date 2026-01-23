@@ -16,8 +16,16 @@ import AdminDashboard from "./pages/Dashoard/admin/AdminDashbord";
 import ManageUsers from "./pages/Dashoard/admin/ManageUsers";
 import AdminTransactions from "./pages/Dashoard/admin/AdminTransactions";
 import AdminInvestments from "./pages/Dashoard/admin/AdminInvestments";
-import AdminProfile from "./pages/Dashoard/admin/AdminProfile";
+import PlansList from "./pages/Dashoard/admin/Plans/PlanList";
+import CreatePlan from "./pages/Dashoard/admin/Plans/CreatePlanList";
+import EditPlan from "./pages/Dashoard/admin/Plans/EditPlan";
 
+import FAQsList from "./pages/Dashoard/admin/FAQs/FAQsList"
+import CreateFAQ from "./pages/Dashoard/admin/FAQs/CreateFAQ"
+import AdminProfile from "./pages/Dashoard/admin/AdminProfile";
+import CreatePaymentOption from "./pages/Dashoard/admin/PaymentOption/CreatePaymentOption";
+import EditPaymentOption from "./pages/Dashoard/admin/PaymentOption/EditPaymentOption";
+import PaymentOptionsList from "./pages/Dashoard/admin/PaymentOption/PaymentOptionList";
 import UserDashboard from "./pages/Dashoard/user/UserDashbord";
 import UserInvestments from "./pages/Dashoard/user/UserInvestment";
 import UserTransactions from "./pages/Dashoard/user/UserTransactions";
@@ -79,6 +87,16 @@ const AppRoute = () => {
           <Route path="/admin/manage-users" element={<ManageUsers />} />
           <Route path="/admin/transactions" element={<AdminTransactions />} />
           <Route path="/admin/investments" element={<AdminInvestments />} />
+          <Route path="/admin/payment-options" element={<PaymentOptionsList />} />
+          <Route path="/admin/payment-options/create" element={<CreatePaymentOption />} />
+          <Route path="/admin/payment-options/:id/edit" element={<EditPaymentOption />} />
+          <Route path="/admin/plans" element={<PlansList />} />
+          <Route path="/admin/plans/create" element={<CreatePlan />} />
+          <Route path="/admin/plans/:id/edit" element={<EditPlan />} />
+
+
+          <Route path="/admin/faqs" element={<FAQsList />} />
+          <Route path="/admin/faqs/create" element={<CreateFAQ />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
         </Route>
 

@@ -2,7 +2,7 @@ import { FaWallet } from "react-icons/fa";
 
 const FundUser = ({ user }) => {
   return (
-    <div className="space-y-8">
+    <div className="">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">
@@ -15,7 +15,7 @@ const FundUser = ({ user }) => {
       <div className="flex flex-col lg:flex-row gap-6">
 
         {/* LEFT SIDE */}
-        <div className="flex-1 space-y-6">
+        <div className=" space-y-6">
 
           {/* USER CARD */}
           <div className="bg-white rounded-2xl shadow p-6 flex items-center gap-5">

@@ -1,40 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaCheck, FaTimes } from "react-icons/fa";
+import PageLoader from "../../../components/Loader/PageLoader";
+import api from "../../../Library/api";
 
 const Transactions = () => {
   const [selectedTx, setSelectedTx] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const transactions = [
-    {
-      id: 1,
-      user: "John Doe",
-      email: "john@example.com",
-      photo: "https://i.pravatar.cc/100?img=12",
-      type: "deposit",
-      amount: 50000,
-      status: "pending",
-      date: "2025-01-10",
-      receipt: true,
-    },
-    {
-      id: 2,
-      user: "Mary Smith",
-      email: "mary@example.com",
-      photo: "https://i.pravatar.cc/100?img=22",
-      type: "investment",
-      amount: 120000,
-      status: "success",
-      date: "2025-01-08",
-      receipt: false,
-    },
-  ];
-
-  const statusStyle = {
-    pending: "bg-yellow-100 text-yellow-700",
-    success: "bg-green-100 text-green-700",
-    failed: "bg-red-100 text-red-700",
-    declined: "bg-gray-200 text-gray-700",
+  const getTransactions = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/transactions");
+      if (res.data.status === "success") {
+        setTransactions(res.data.data.transactions);
+      }
+    } catch (err) {
+      console.error("Error fetching transactions:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // ✅ Fetch on component mount
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
+  if (loading) return <PageLoader />;
 
   return (
     <div className="space-y-6">

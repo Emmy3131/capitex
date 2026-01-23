@@ -1,38 +1,85 @@
-import {
-  FaUsers,
-  FaWallet,
-  FaChartLine,
-  FaUserFriends,
-} from "react-icons/fa";
+import { FaUsers, FaWallet, FaChartLine, FaUserFriends } from "react-icons/fa";
+import api from "../../../Library/api";
+import PageLoader from "../../../components/Loader/PageLoader";
+import { useEffect, useState } from "react";
+import AdminQuickAction from "../../../components/AdminQuickAction"
 
-const stats = [
-  {
-    title: "Total Users",
-    value: "1,248",
-    icon: <FaUsers />,
-    color: "from-blue-500 to-indigo-600",
-  },
-  {
-    title: "Total Balance",
-    value: "₦48,500,000",
-    icon: <FaWallet />,
-    color: "from-emerald-500 to-green-600",
-  },
-  {
-    title: "Total Profits",
-    value: "₦12,300,000",
-    icon: <FaChartLine />,
-    color: "from-purple-500 to-pink-600",
-  },
-  {
-    title: "Referral Balance",
-    value: "₦2,150,000",
-    icon: <FaUserFriends />,
-    color: "from-orange-500 to-amber-600",
-  },
-];
+
+
 
 const Dashboard = () => {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [latestTransactions, setLatestTransactions] = useState([]);
+  const [latestInvestments, setLatestInvestments] = useState([]);
+
+
+  const getAdminStats = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/stats/admin");
+      if (res.data.status === "success") {
+        console.log("Fetched admin stats:", res.data);
+        setStats(res.data.data.stats);
+      }
+    } catch (err) {
+      console.error("Error fetching admin stats:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const getDashboardData = async () => {
+    try {
+      const res = await api.get("/admin/dashboard");
+
+      if (res.data.status === "success") {
+        const { latest_transactions, latest_investments } =
+          res.data.data;
+
+        setLatestTransactions(latest_transactions || []);
+        setLatestInvestments(latest_investments || []);
+      }
+    } catch (err) {
+      console.error("Failed to load dashboard data:", err);
+    }
+  };
+
+  useEffect(() => {
+    Promise.all([getAdminStats(), getDashboardData()])
+  }, []);
+
+  if (loading) return <PageLoader />;
+  if (!stats) return null;
+
+  const dashboardStats = [
+    {
+      title: "Total Users",
+      value: stats.users,
+      icon: <FaUsers />,
+      color: "from-blue-500 to-indigo-600",
+    },
+    {
+      title: "Total Balance",
+      value: `₦${stats.total_balance}`,
+      icon: <FaWallet />,
+      color: "from-emerald-500 to-green-600",
+    },
+    {
+      title: "Total Profits",
+      value: `₦${stats.total_profit}`,
+      icon: <FaChartLine />,
+      color: "from-purple-500 to-pink-600",
+    },
+    {
+      title: "Referral Balance",
+      value: `₦${stats.total_referral_balance}`,
+      icon: <FaUserFriends />,
+      color: "from-orange-500 to-amber-600",
+    },
+
+  ];
+
   return (
     <div className="space-y-8">
       {/* Page title */}
@@ -46,37 +93,24 @@ const Dashboard = () => {
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
-        {stats.map((item, index) => (
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+        {dashboardStats.map((item, index) => (
           <div
             key={index}
-            className="
-        bg-white rounded-xl shadow
-        p-3 sm:p-5
-        flex items-center justify-between
-      "
+            className="bg-white rounded-xl shadow p-4 flex items-center justify-between"
           >
-            {/* Text */}
-            <div className="min-w-0">
-              <p className="text-xs sm:text-sm text-gray-500 truncate">
+            <div>
+              <p className="text-xs sm:text-sm text-gray-500">
                 {item.title}
               </p>
-              <h3 className="text-sm sm:text-xl font-bold text-gray-800 truncate">
+              <h3 className="text-sm sm:text-xl font-bold text-gray-800">
                 {item.value}
               </h3>
             </div>
 
-            {/* Icon */}
             <div
-              className={`
-          flex-shrink-0
-          w-8 h-8 sm:w-10 sm:h-10
-          rounded-full
-          bg-gradient-to-r ${item.color}
-          text-white
-          flex items-center justify-center
-          text-sm sm:text-lg
-        `}
+              className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-r ${item.color}
+              text-white flex items-center justify-center`}
             >
               {item.icon}
             </div>
@@ -86,26 +120,8 @@ const Dashboard = () => {
 
 
       {/* QUICK ACTIONS */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <h2 className="font-semibold text-lg mb-4">Quick Actions</h2>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            "Manage Plans",
-            "Payment Options",
-            "View Investments",
-            "Manage FAQ",
-          ].map((action, i) => (
-            <button
-              key={i}
-              className="border rounded-lg py-3 text-sm font-medium
-              hover:bg-gray-100 transition"
-            >
-              {action}
-            </button>
-          ))}
-        </div>
-      </div>
+      
+      <AdminQuickAction />
 
       {/* CHARTS */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -127,80 +143,82 @@ const Dashboard = () => {
       {/* TABLES */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Recent Transactions */}
-        <div className="bg-white rounded-xl shadow p-5">
-          <h3 className="font-semibold mb-4">
-            Recent Transactions
-          </h3>
+        <tbody>
+          {latestTransactions.length === 0 ? (
+            <tr>
+              <td
+                colSpan="5"
+                className="text-center py-6 text-gray-400"
+              >
+                No recent transactions
+              </td>
+            </tr>
+          ) : (
+            latestTransactions.map((tx) => (
+              <tr key={tx._id} className="shadow-sm">
+                <td className="py-2 px-2">
+                  {tx.user?.name || "N/A"}
+                </td>
+                <td className="px-2 capitalize">{tx.type}</td>
+                <td className="px-2 font-medium">
+                  ₦{Number(tx.amount).toLocaleString()}
+                </td>
+                <td
+                  className={`px-2 font-medium ${tx.status === "success"
+                    ? "text-green-600"
+                    : tx.status === "pending"
+                      ? "text-yellow-500"
+                      : "text-red-500"
+                    }`}
+                >
+                  {tx.status}
+                </td>
+                <td className="px-2 text-gray-500">
+                  {new Date(tx.createdAt).toLocaleDateString()}
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
 
-          {/* Scroll wrapper */}
-          <div className="overflow-x-auto">
-            <table className="min-w-[700px] w-full text-sm">
-              <thead className="text-gray-500 shadow-sm text-left">
-                <tr>
-                  <th className="px-2">User</th>
-                  <th className="px-2">Type</th>
-                  <th className="px-2">Amount</th>
-                  <th className="px-2">Status</th>
-                  <th className="px-2">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="shadow-sm">
-                  <td className="py-2 px-2">John Doe</td>
-                  <td className="px-2">Deposit</td>
-                  <td className="px-2">₦150,000</td>
-                  <td className="px-2 text-green-600">Success</td>
-                  <td className="px-2">12 Aug</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-2">Jane Smith</td>
-                  <td className="px-2">Withdrawal</td>
-                  <td className="px-2">₦80,000</td>
-                  <td className="px-2 text-yellow-500">Pending</td>
-                  <td className="px-2">11 Aug</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
         {/* Recent Investments */}
-        <div className="bg-white rounded-xl shadow p-5">
-          <h3 className="font-semibold mb-4">
-            Recent Investments
-          </h3>
+        <tbody>
+          {latestInvestments.length === 0 ? (
+            <tr>
+              <td
+                colSpan="5"
+                className="text-center py-6 text-gray-400"
+              >
+                No recent investments
+              </td>
+            </tr>
+          ) : (
+            latestInvestments.map((inv) => (
+              <tr key={inv._id} className="shadow-sm">
+                <td className="py-2 px-2">
+                  {inv.user?.name || "N/A"}
+                </td>
+                <td className="px-2">{inv.plan?.name}</td>
+                <td className="px-2 font-medium">
+                  ₦{Number(inv.amount).toLocaleString()}
+                </td>
+                <td className="px-2 text-emerald-600 font-medium">
+                  ₦{Number(inv.profit).toLocaleString()}
+                </td>
+                <td
+                  className={`px-2 font-medium ${inv.status === "active"
+                    ? "text-blue-600"
+                    : "text-green-600"
+                    }`}
+                >
+                  {inv.status}
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
 
-          {/* Scroll wrapper */}
-          <div className="overflow-x-auto">
-            <table className="min-w-[700px] w-full text-sm">
-              <thead className="text-gray-500 shadow-sm text-left">
-                <tr>
-                  <th className=" py-2 px-2">User</th>
-                  <th className="px-2">Plan</th>
-                  <th className="px-2">Amount</th>
-                  <th className="px-2">Profit</th>
-                  <th className="px-2">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="shadow-sm">
-                  <td className="py-2 px-2">Michael</td>
-                  <td className="px-2">Gold Plan</td>
-                  <td className="px-2">₦500,000</td>
-                  <td className="px-2">₦75,000</td>
-                  <td className="px-2 text-blue-600">Active</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-2">Sarah</td>
-                  <td className="px-2">Silver Plan</td>
-                  <td className="px-2">₦300,000</td>
-                  <td className="px-2">₦45,000</td>
-                  <td className="px-2 text-green-600">Completed</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
 
     </div>

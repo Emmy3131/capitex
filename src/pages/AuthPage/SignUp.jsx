@@ -1,86 +1,61 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../utilities/auth.js";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import api from "../../Library/api.jsx";
+import { toast } from "react-toastify"; 
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const baseURL = "https://capitex-api.vercel.app/api/v1/users/signup";
+  const token = localStorage.getItem("token");
+  const [error, setError] = useState("");
 
-  const fileToBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      if (!file) return resolve(null);
-
-      if (file.size > 500 * 1024) {
-        reject(new Error("Image too large (max 500KB)"));
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    gender: "",
-    country: "",
-    address: "",
-    role: "user", // default role
+    passwordConfirm: "",
   });
 
+  // handle input change
   const handleChange = (e) => {
-    const { name, type, files, value } = e.target;
-
-    if (type === "file") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: files && files.length > 0 ? files[0] : null,
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+    // Basic frontend validation
+    if (formData.password !== formData.passwordConfirm) {
+      setError("Passwords do not match");
+      setLoading(false);
       return;
     }
 
-    const photoBase64 = await fileToBase64(form.photo);
+    try {
+      const res = await api.post("/users/signup", formData);
 
-    const user = registerUser({
-      id: crypto.randomUUID(),
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      password: form.password,
-      gender: form.gender,
-      country: form.country,
-      address: form.address,
-      role: form.role,
-      photo: photoBase64, // ✅ persists
-    });
-
-    navigate(user.role === "admin" ? "/admin/dashboard" : "/dashboard");
+      if (res.data.status === "success") {
+        console.log("User registered successfully", res.data);
+        toast.success("Signup successful! Please log in.");
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Signup error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   };
-
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -91,15 +66,6 @@ const SignUp = () => {
             name="name"
             type="text"
             placeholder="Full Name"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
-          {/* Phone */}
-          <input
-            name="phone"
-            type="tel"
-            placeholder="07011000000"
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
@@ -137,7 +103,7 @@ const SignUp = () => {
           {/* Confirm Password */}
           <div className="relative">
             <input
-              name="confirmPassword"
+              name="passwordConfirm"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
               onChange={handleChange}
@@ -154,52 +120,13 @@ const SignUp = () => {
             </button>
           </div>
 
-          {/* Gender */}
-          <select
-            name="gender"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-          {/* Country */}
-          <input
-            name="country"
-            type="text"
-            placeholder="Country"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
-
-          {/* image */}
-          <input
-            name="photo"
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
-
-          {/* Address */}
-          <input
-            name="address"
-            type="text"
-            placeholder="Address"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
-          />
-
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+            disabled={loading}
+            className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
           >
-            Sign Up
+            {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
@@ -210,6 +137,7 @@ const SignUp = () => {
           </Link>
         </div>
       </div>
+
     </div>
   );
 };

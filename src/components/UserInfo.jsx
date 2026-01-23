@@ -1,9 +1,11 @@
-import { getCurrentUser } from "../utilities/auth.js";
+import { useState } from "react";
+import axios from "axios";
 
 const UserInfo = ({ isMobile = false }) => {
-  const user = getCurrentUser();
+  const activeUser = localStorage.getItem("user");
+ const user = activeUser ? JSON.parse(activeUser) : {};
 
-  if (!user) return null;
+ 
 
   return (
     <div

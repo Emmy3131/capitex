@@ -10,7 +10,8 @@ const DashboardLayout = () => {
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* Sidebar */}
-      <SideBar
+    
+        <SideBar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         

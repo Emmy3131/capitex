@@ -1,11 +1,49 @@
-import { getCurrentUser } from "../../../utilities/auth";
 import StatCard from "../../../components/StatCard.jsx";
 import QuickAction from "../../../components/QuickActions.jsx";
 import TransactionRow from "../../../components/TransactionRow.jsx";
 import InvestmentRow from "../../../components/InvestmentRow.jsx";
+import api from "../../../Library/api.jsx";
+import PageLoader from "../../../components/Loader/PageLoader.jsx";
+import { useState, useEffect } from "react";
 
 const UserDashboard = () => {
-  const user = getCurrentUser();
+
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({})
+
+  const getUserStat = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/stats/user");
+      console.log(res)
+      if (res.data.status === "success"){
+        setStats(res.data.data.stats);
+      }
+    } catch (err) {
+      console.error("Error fetching user stats:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCurrentUser = async()=>{
+    try{
+      const res = await api.get('/users/me')
+      if(res.data.status === "success"){
+        setUser(res.data.data.me);
+        console.log(res.data)
+      }
+    }catch(err) {
+      console.log("erro fetching users info")
+    }
+  }
+
+  useEffect(() => {
+    Promise.all([getUserStat(), getCurrentUser()]);
+  }, []);
+
+  if (loading) return <PageLoader />;
 
   return (
     <div className="space-y-8">
@@ -21,11 +59,11 @@ const UserDashboard = () => {
       </div>
 
       {/* ===== Stats Cards ===== */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Account Balance" value="₦120,000" />
-        <StatCard title="Referral Balance" value="₦15,500" />
-        <StatCard title="Total Deposit" value="₦300,000" />
-        <StatCard title="Accrued Profit" value="₦45,200" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard title="Account Balance" value={`₦${stats?.balance ?? 0}`} />
+        <StatCard title="Referral Balance" value={`₦${stats?.referralBalance ?? 0}`} />
+        <StatCard title="Total Deposit" value={`₦${stats?.totalDeposit ?? 0}`} />
+        <StatCard title="Accrued Profit" value={`₦${stats?.profit ?? 0}`} />
       </div>
 
       {/* ===== Quick Actions ===== */}
@@ -40,7 +78,6 @@ const UserDashboard = () => {
         {/* ===== Active Investments ===== */}
         <div className="lg:col-span-2 bg-white rounded-xl shadow p-6">
           <h2 className="font-semibold text-lg mb-4">Active Investments</h2>
-
           <InvestmentRow />
         </div>
 
@@ -84,7 +121,7 @@ const UserDashboard = () => {
               <th>Status</th>
             </tr>
           </thead>
-          <tbody className="shadow-sm">
+          <tbody>
             <TransactionRow />
           </tbody>
         </table>

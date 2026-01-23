@@ -1,40 +1,62 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser} from "../../utilities/auth.js";
+import api from "../../Library/api.jsx";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
-      const user = loginUser(form.email, form.password);
-
-      if (user.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-        navigate("/dashboard", { replace: true });
-
+      const res = await api.post("/users/login", form);
+      if (res.data.status === "success") {
+        // 🔐 Save auth data
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.data.user));
+        toast.success("Login successful!");
+        console.log("Login successful", res.data);
+        navigate("/dashboard");
       }
-    } catch (error) {
-      alert(error.message);
+    } catch (err) {
+      console.error("Login error:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
-
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
+
+        <h2 className="text-2xl font-semibold text-center mb-6">
+          Welcome Back
+        </h2>
+
+        {error && (
+          <p className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm text-center">
+            {error}
+          </p>
+        )}
 
         <form className="space-y-5" onSubmit={handleLogin}>
           {/* Email */}
@@ -45,6 +67,7 @@ const Login = () => {
             <input
               name="email"
               type="email"
+              placeholder="email@example.com"
               value={form.email}
               onChange={handleChange}
               required
@@ -61,6 +84,7 @@ const Login = () => {
             <input
               name="password"
               type="password"
+              placeholder="password@123456"
               value={form.password}
               onChange={handleChange}
               required
@@ -81,10 +105,12 @@ const Login = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-green-600 text-white py-3 rounded-lg
-            font-medium hover:bg-green-700 transition shadow-md"
+            font-medium hover:bg-green-700 transition shadow-md
+            disabled:opacity-50"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
@@ -96,6 +122,7 @@ const Login = () => {
           >
             Sign up
           </Link>
+          <p className="text-red-700 text-sm">{error}</p>
         </div>
       </div>
     </div>

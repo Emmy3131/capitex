@@ -4,23 +4,39 @@ import { CiLogout } from "react-icons/ci";
 import Brand from "./Brand";
 import UserInfo from "./UserInfo";
 import { useState } from "react";
-import { logoutUser } from "../utilities/auth";
+import axios from "axios";
+import ButtonLoader from "./Loader/ButtonLoader";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const token = localStorage.getItem("token");
+  const baseURL = "https://capitex-api.vercel.app/api/v1/users/logout";
 
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role || "user";
   const links = SidebarLinks[role];
+  const [loading, setLoading] = useState(false);
 
-  const handleLogout = () => {
-    logoutUser();
-    navigate("/auth"); // ✅ correct route
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await axios.get(baseURL, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/auth");
+    } catch (err) {
+      console.error("Logout error:", err.response?.data || err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
+      {/* Mobile overlay */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -30,18 +46,20 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       <aside
         className={`fixed top-0 left-0 h-screen w-64 bg-gray-900 px-4 py-6 z-50
-        transform transition-transform duration-300
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0 lg:static`}
+          transform transition-transform duration-300
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 lg:static flex flex-col`}
       >
-        <div className="mb-8">
+        {/* BRAND / LOGO */}
+        <div className="flex flex-col mb-6">
           <Brand showText size="lg" />
           <p className="text-xs text-gray-400 ml-12">
             {role === "admin" ? "Admin Panel" : "User Panel"}
           </p>
         </div>
 
-        <nav className="flex flex-col gap-2">
+        {/* LINKS - scrollable */}
+        <nav className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
           {links.map((link) => {
             const isActive = pathname === link.to;
 
@@ -51,11 +69,10 @@ const Sidebar = ({ isOpen, onClose }) => {
                 to={link.to}
                 onClick={onClose}
                 className={`flex items-center gap-3 px-5 py-3 rounded-lg transition
-                ${
-                  isActive
+                  ${isActive
                     ? "bg-gradient-to-r from-emerald-600 to-blue-600 text-white shadow"
                     : "text-gray-300 hover:bg-gray-800 hover:text-white"
-                }`}
+                  }`}
               >
                 {link.icon}
                 {link.label}
@@ -63,18 +80,32 @@ const Sidebar = ({ isOpen, onClose }) => {
             );
           })}
 
-          {/* ✅ LOGOUT */}
+          {/* LOGOUT BUTTON */}
           <button
             onClick={handleLogout}
-            className="flex gap-3 px-5 py-3 mt-6 rounded-lg
-                       text-gray-300 hover:bg-red-600 hover:text-white transition"
+            disabled={loading}
+            className={`flex items-center gap-3 px-5 py-3 mt-6 rounded-lg transition
+              ${loading
+                ? "bg-red-600 text-white cursor-not-allowed"
+                : "text-gray-300 hover:bg-red-600 hover:text-white"
+              }`}
           >
-            <CiLogout className="text-xl" />
-            Logout
+            {loading ? (
+              <>
+                <ButtonLoader />
+                <span>Logging out...</span>
+              </>
+            ) : (
+              <>
+                <CiLogout className="text-xl" />
+                <span>Logout</span>
+              </>
+            )}
           </button>
         </nav>
 
-        <div className="hidden lg:block mt-auto">
+        {/* USER INFO - fixed at bottom */}
+        <div className="mt-auto hidden lg:block">
           <UserInfo />
         </div>
       </aside>
