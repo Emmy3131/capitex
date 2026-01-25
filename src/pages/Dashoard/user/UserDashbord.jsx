@@ -14,27 +14,34 @@ const UserDashboard = () => {
 
   const getUserStat = async () => {
     setLoading(true);
+
     try {
       const res = await api.get("/stats/user");
-      console.log(res)
-      if (res.data.status === "success"){
+
+      if (res.data?.status === "success") {
         setStats(res.data.data.stats);
+        console.log("User stats:", res.data.data.stats);
       }
+
     } catch (err) {
-      console.error("Error fetching user stats:", err);
+      console.error(
+        "Error fetching user stats:",
+        err.response?.data || err.message
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const getCurrentUser = async()=>{
-    try{
+
+  const getCurrentUser = async () => {
+    try {
       const res = await api.get('/users/me')
-      if(res.data.status === "success"){
-        setUser(res.data.data.me);
-        console.log(res.data)
+      if (res.data.status === "success") {
+        setUser(res.data.data.user);
+
       }
-    }catch(err) {
+    } catch (err) {
       console.log("erro fetching users info")
     }
   }
@@ -51,7 +58,7 @@ const UserDashboard = () => {
       {/* ===== Welcome ===== */}
       <div>
         <h1 className="text-2xl font-semibold text-gray-800">
-          Welcome back, {user?.name} 👋
+          Welcome back, <span className="text-emerald-600 font-bold">{user?.name}</span> 👋
         </h1>
         <p className="text-gray-500 text-sm">
           Here’s what’s happening with your account today
@@ -60,10 +67,10 @@ const UserDashboard = () => {
 
       {/* ===== Stats Cards ===== */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Account Balance" value={`₦${stats?.balance ?? 0}`} />
-        <StatCard title="Referral Balance" value={`₦${stats?.referralBalance ?? 0}`} />
-        <StatCard title="Total Deposit" value={`₦${stats?.totalDeposit ?? 0}`} />
-        <StatCard title="Accrued Profit" value={`₦${stats?.profit ?? 0}`} />
+        <StatCard title="Account Balance" value={`₦${stats?.balance}`} />
+        <StatCard title="Referral Balance" value={`₦${stats?.referral_balance}`} />
+        <StatCard title="Total Deposit" value={`₦${stats?.total_eposit}`} />
+        <StatCard title="Accrued Profit" value={`₦${stats?.profit}`} />
       </div>
 
       {/* ===== Quick Actions ===== */}

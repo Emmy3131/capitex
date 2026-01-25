@@ -1,27 +1,41 @@
 import InvestmentStatus from "./InvestmentStatus";
-
-const investments = [
-  {
-    id: 1,
-    plan: "Gold Plan",
-    amount: 100000,
-    profit: 20000,
-    start: "2026-01-01",
-    end: "2026-02-01",
-    status: "active",
-  },
-  {
-    id: 2,
-    plan: "Silver Plan",
-    amount: 50000,
-    profit: 10000,
-    start: "2025-12-01",
-    end: "2026-01-01",
-    status: "completed",
-  },
-];
+import api from "../../Library/api";
+import { useEffect, useState } from "react";
+import PageLoader from "../Loader/PageLoader";
 
 const InvestmentTable = () => {
+  const [investments, setInvestments] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getInvestment = async () => {
+    setLoading(true);
+
+    try {
+      const res = await api.get("/investments");
+
+      if (res.data?.status === "success") {
+        setInvestments(res.data.data.investments);
+        console.log("User investments:", res.data.data.investments);
+      }
+
+    } catch (err) {
+      console.error(
+        "Error fetching user investment:",
+        err.response?.data || err.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getInvestment();
+  }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
+
   return (
     <div className="bg-white rounded-xl shadow overflow-x-auto">
       <table className="w-full text-sm">
@@ -37,22 +51,39 @@ const InvestmentTable = () => {
         </thead>
 
         <tbody>
-          {investments.map((inv) => (
-            <tr key={inv.id} className="border-t">
-              <td className="px-6 py-4">{inv.plan}</td>
-              <td className="px-6 py-4">
-                ₦{inv.amount.toLocaleString()}
-              </td>
-              <td className="px-6 py-4 text-emerald-600">
-                ₦{inv.profit.toLocaleString()}
-              </td>
-              <td className="px-6 py-4">{inv.start}</td>
-              <td className="px-6 py-4">{inv.end}</td>
-              <td className="px-6 py-4">
-                <InvestmentStatus status={inv.status} />
+          {investments.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="px-6 py-6 text-center text-gray-500">
+                No investments found
               </td>
             </tr>
-          ))}
+          ) : (
+            investments.map((inv) => (
+              <tr key={inv.id || inv._id} className="border-t">
+                <td className="px-6 py-4">{inv.plan}</td>
+
+                <td className="px-6 py-4">
+                  ₦{Number(inv.amount).toLocaleString()}
+                </td>
+
+                <td className="px-6 py-4 text-emerald-600">
+                  ₦{Number(inv.profit).toLocaleString()}
+                </td>
+
+                <td className="px-6 py-4">
+                  {new Date(inv.startDate).toLocaleDateString()}
+                </td>
+
+                <td className="px-6 py-4">
+                  {new Date(inv.endDate).toLocaleDateString()}
+                </td>
+
+                <td className="px-6 py-4">
+                  <InvestmentStatus status={inv.status} />
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

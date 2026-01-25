@@ -30,6 +30,7 @@ import UserDashboard from "./pages/Dashoard/user/UserDashbord";
 import UserInvestments from "./pages/Dashoard/user/UserInvestment";
 import UserTransactions from "./pages/Dashoard/user/UserTransactions";
 import UserSettings from "./pages/Dashoard/user/UserSettings";
+import PlanCard from "./pages/Dashoard/user/PlanCard";
 
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AuthGuard from "./pages/AuthPage/AuthGuard";
@@ -43,7 +44,7 @@ const AppRoute = () => {
         <Route element={<GuestLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/investmentplans" element={<InvestmentPlans />} />
+          <Route path="/investmentplans" element={<PlanCard />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/support" element={<Support />} />
           <Route path="/services" element={<Service />} />
@@ -70,6 +71,7 @@ const AppRoute = () => {
         >
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/investments" element={<UserInvestments />} />
+          <Route path="/investmentPlan" element={<InvestmentPlans />} />
           <Route path="/transactions" element={<UserTransactions />} />
           <Route path="/settings" element={<UserSettings />} />
         </Route>
