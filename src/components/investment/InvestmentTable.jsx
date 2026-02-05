@@ -9,15 +9,12 @@ const InvestmentTable = () => {
 
   const getInvestment = async () => {
     setLoading(true);
-
     try {
       const res = await api.get("/investments");
 
       if (res.data?.status === "success") {
         setInvestments(res.data.data.investments);
-        console.log("User investments:", res.data.data.investments);
       }
-
     } catch (err) {
       console.error(
         "Error fetching user investment:",
@@ -59,23 +56,26 @@ const InvestmentTable = () => {
             </tr>
           ) : (
             investments.map((inv) => (
-              <tr key={inv.id || inv._id} className="border-t">
-                <td className="px-6 py-4">{inv.plan}</td>
+              <tr key={inv._id} className="border-t border-gray-200">
+                {/* ✅ FIX HERE */}
+                <td className="px-6 py-4">
+                  {inv.plan?.name || "N/A"}
+                </td>
 
                 <td className="px-6 py-4">
-                  ₦{Number(inv.amount).toLocaleString()}
+                  ${Number(inv.amount).toLocaleString()}
                 </td>
 
                 <td className="px-6 py-4 text-emerald-600">
-                  ₦{Number(inv.profit).toLocaleString()}
+                  ${Number(inv.profit).toLocaleString()}
                 </td>
 
                 <td className="px-6 py-4">
-                  {new Date(inv.startDate).toLocaleDateString()}
+                  {new Date(inv.createdAt).toLocaleDateString()}
                 </td>
 
                 <td className="px-6 py-4">
-                  {new Date(inv.endDate).toLocaleDateString()}
+                  {new Date(inv.expiryDate).toLocaleDateString()}
                 </td>
 
                 <td className="px-6 py-4">

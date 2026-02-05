@@ -1,23 +1,35 @@
 import StatusBadge from "./StatusBadge";
-
-const transactions = [
-  {
-    id: 1,
-    type: "Deposit",
-    amount: 50000,
-    status: "success",
-    date: "2026-01-12",
-  },
-  {
-    id: 2,
-    type: "Withdrawal",
-    amount: 20000,
-    status: "pending",
-    date: "2026-01-13",
-  },
-];
+import api from "../Library/api";
+import PageLoader from "./Loader/PageLoader";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
 
 const TransactionTable = () => {
+  const [loader, setLoader] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+
+  const fetchAllTransaction = async () => {
+    setLoader(true);
+    try {
+      const res = await api.get("users/me/transactions");
+      if (res.data.status === "success") {
+        setTransactions(res.data.data.transactions);
+        console.log("Fetched transactions:", res.data);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch transactions");
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllTransaction();
+  }, []);
+
+  if (loader) return <PageLoader />;
+
   return (
     <div className="bg-white rounded-xl shadow overflow-x-auto">
       <table className="w-full text-sm">
@@ -32,13 +44,13 @@ const TransactionTable = () => {
 
         <tbody>
           {transactions.map((tx) => (
-            <tr key={tx.id} className="border-t">
+            <tr key={tx.id} className="border-t border-gray-200">
               <td className="px-6 py-4">{tx.type}</td>
-              <td className="px-6 py-4">₦{tx.amount.toLocaleString()}</td>
+              <td className="px-6 py-4">${tx.amount.toLocaleString()}</td>
               <td className="px-6 py-4">
                 <StatusBadge status={tx.status} />
               </td>
-              <td className="px-6 py-4">{tx.date}</td>
+              <td className="px-6 py-4">{tx.createdAt}</td>
             </tr>
           ))}
         </tbody>

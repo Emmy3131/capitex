@@ -46,8 +46,8 @@ const SignUp = () => {
 
       if (res.data.status === "success") {
         console.log("User registered successfully", res.data);
-        toast.success("Signup successful! Please log in.");
-        navigate("/dashboard");
+        toast.success("Signup successful! Please complete your profile.");
+        navigate("/auth");
       }
     } catch (err) {
       console.error("Signup error:", err.response?.data || err.message);
@@ -58,7 +58,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6">
         <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Name */}

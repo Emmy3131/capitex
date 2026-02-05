@@ -84,7 +84,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           <button
             onClick={handleLogout}
             disabled={loading}
-            className={`flex items-center gap-3 px-5 py-3 mt-6 rounded-lg transition
+          className={`flex items-center gap-3 px-5 py-3 mt-6 rounded-lg w-full transition
               ${loading
                 ? "bg-red-600 text-white cursor-not-allowed"
                 : "text-gray-300 hover:bg-red-600 hover:text-white"

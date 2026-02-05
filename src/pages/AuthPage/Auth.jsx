@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgetPassword from "./ForgetPassword";
-import ResetPassword from "./ResetPassword";
+import CompleteProfile from "./CompletProfile";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import heroBg from '../../assets/bgImage/heroBg.webp';
@@ -19,7 +19,7 @@ const Auth = () => {
 
     if (tab === "signUp") setActiveTab("signup");
     else if (tab === "forgot") setActiveTab("forgot");
-    else if (tab === "reset") setActiveTab("reset");
+    else if (tab === "completeProfile") setActiveTab("completeProfile");
     else setActiveTab("login");
   }, [searchParams]);
 
@@ -91,7 +91,7 @@ const Auth = () => {
             </p>
           </div>
 
-          <div className="flex mb-4 rounded-lg overflow-hidden border">
+          <div className="flex rounded-lg overflow-hidden border">
             <button
               onClick={() => handleToggle("login")}
               className={`flex-1 py-2 font-medium transition ${activeTab === "login"
@@ -114,12 +114,13 @@ const Auth = () => {
           </div>
 
 
-          {/* FORM – Scrollable */}
+      
           <div className="flex-1 overflow-y-auto">
+
             {activeTab === "login" && <Login />}
             {activeTab === "signup" && <SignUp />}
             {activeTab === "forgot" && <ForgetPassword />}
-            {activeTab === "reset" && <ResetPassword />}
+           
 
           </div>
 

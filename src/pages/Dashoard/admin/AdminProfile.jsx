@@ -3,13 +3,15 @@ import {
   FaWallet,
   FaUsers,
   FaMoneyBillWave,
+  FaUserShield,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import PageLoader from "../../../components/Loader/PageLoader";
 import api from "../../../Library/api";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-const Profile = () => {
+const AdminProfile = () => {
   const [activeUser, setActiveUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -36,87 +38,73 @@ const Profile = () => {
   if (!activeUser) return null;
 
   return (
-    <div className="space-y-8 px-4 md:px-0">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="max-w-3xl mx-auto space-y-8">
+
+      {/* HEADER */}
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">
             Admin Profile
           </h1>
           <p className="text-sm text-gray-500">
-            Manage your personal information and account stats
+            Account overview and personal information
           </p>
         </div>
 
-        <button className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition">
+        <Link
+          to="/profile"
+          className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition"
+        >
           <FaEdit />
           Edit Profile
-        </button>
+        </Link>
       </div>
 
-      {/* Profile Card */}
-      <div className="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
-        <img
-          src={activeUser.photo || "/avatar.png"}
-          alt={activeUser.name}
-          className="w-28 h-28 rounded-full object-cover border-4 border-emerald-500"
-        />
+      {/* PROFILE CARD */}
+      <div className="bg-white rounded-2xl shadow-sm p-8 text-center space-y-4">
+        <div className="mx-auto w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-3xl font-bold">
+          {activeUser.name?.charAt(0)}
+        </div>
 
-        <div className="text-center md:text-left space-y-2">
+        <div>
           <h2 className="text-xl font-semibold text-gray-800">
             {activeUser.name}
           </h2>
           <p className="text-sm text-gray-500">
             {activeUser.email}
           </p>
-          <span className="inline-block bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full capitalize">
-            {activeUser.role}
-          </span>
+        </div>
+
+        <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs px-4 py-1 rounded-full capitalize mx-auto">
+          <FaUserShield />
+          {activeUser.role}
+        </span>
+      </div>
+
+      {/* INFORMATION SECTION */}
+      <div className="bg-white rounded-2xl shadow-sm p-6 space-y-6">
+        <h3 className="text-lg font-semibold text-gray-800">
+          Account Information
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+          <InfoItem label="Full Name" value={activeUser.name} />
+          <InfoItem label="Email Address" value={activeUser.email} />
+          <InfoItem label="Account ID" value={activeUser.accountId || "—"} />
+          <InfoItem label="Status" value={activeUser.status || "Active"} />
+          <InfoItem label="Joined" value={new Date(activeUser.createdAt).toLocaleDateString()} />
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          icon={<FaWallet className="text-emerald-600" />}
-          title="Account Balance"
-          value={`₦${activeUser.balance?.toLocaleString() || 0}`}
-          bg="bg-emerald-100"
-        />
-
-        <StatCard
-          icon={<FaMoneyBillWave className="text-blue-600" />}
-          title="Referral Balance"
-          value={`₦${activeUser.referralBalance?.toLocaleString() || 0}`}
-          bg="bg-blue-100"
-        />
-
-        <StatCard
-          icon={<FaUsers className="text-purple-600" />}
-          title="Total Referrals"
-          value={activeUser.totalReferrals || 0}
-          bg="bg-purple-100"
-        />
-
-        <StatCard
-          icon={<FaMoneyBillWave className="text-red-600" />}
-          title="Total Withdrawals"
-          value={`₦${activeUser.totalWithdrawals?.toLocaleString() || 0}`}
-          bg="bg-red-100"
-        />
-      </div>
     </div>
   );
 };
 
-const StatCard = ({ icon, title, value, bg }) => (
-  <div className="bg-white rounded-xl shadow p-5 flex items-center gap-4">
-    <div className={`p-3 rounded-full ${bg}`}>{icon}</div>
-    <div>
-      <p className="text-sm text-gray-500">{title}</p>
-      <p className="font-bold text-gray-800">{value}</p>
-    </div>
+const InfoItem = ({ label, value }) => (
+  <div className="flex flex-col gap-1">
+    <span className="text-xs text-gray-400">{label}</span>
+    <span className="font-medium text-gray-800 truncate">{value}</span>
   </div>
 );
 
-export default Profile;
+export default AdminProfile;

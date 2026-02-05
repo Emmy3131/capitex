@@ -1,9 +1,23 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../Library/api";
 
 const UserInfo = ({ isMobile = false }) => {
-  const activeUser = localStorage.getItem("user");
- const user = activeUser ? JSON.parse(activeUser) : {};
+  const [user, setUser] = useState({});
+
+  const fetchUser = async () => {
+    try {
+      const res = await api.get("/users/me");
+      if (res.data.status === "success") {
+        setUser(res.data.data.user);
+      }
+    } catch (err) {
+      console.error("Failed to load user");
+    }
+  };
+
+  useState(() => {
+    fetchUser();
+  }, []);
 
  
 
@@ -13,16 +27,10 @@ const UserInfo = ({ isMobile = false }) => {
         isMobile ? "" : "p-4 border-b"
       }`}
     >
-      <img
-        src={user.photo || "/avatar.png"}
-        alt="User"
-        className="w-8 h-8 lg:w-12 lg:h-12 rounded-full object-cover"
-      />
-
       <div className="leading-tight">
         <p className="text-sm text-emerald-600">Welcome back 👋</p>
-        <h4 className="font-semibold text-[12px] text-gray-800">
-          {user.name || user.email || "User"}
+        <h4 className="font-semibold text-[12px] text-gray-400">
+          {user.name || user.email}
         </h4>
       </div>
     </div>

@@ -46,7 +46,7 @@ const features = [
 const FeaturesAndSecurity = () => {
   return (
     <section className="py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6">
 
         {/* HEADER */}
         <div className="text-center mb-16">

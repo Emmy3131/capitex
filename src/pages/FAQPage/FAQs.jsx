@@ -1,47 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import api from "../../Library/api"
+import PageLoader from "../../components/Loader/PageLoader";
 
 
-const faqs = [
-  {
-    question: "Is Capitex a trading platform?",
-    answer:
-      "No. Capitex is a crypto investment platform that offers structured investment plans managed by professionals. Users do not trade manually.",
-  },
-  {
-    question: "How secure are my funds?",
-    answer:
-      "Capitex uses institutional-grade security practices including cold storage, encrypted wallets, and strict access controls to protect user funds.",
-  },
-  {
-    question: "When can I withdraw my investment?",
-    answer:
-      "Withdrawals depend on the investment plan you choose. Each plan has a defined timeline and withdrawal schedule clearly stated before you invest.",
-  },
-  {
-    question: "Are returns guaranteed?",
-    answer:
-      "No investment returns are guaranteed. Capitex provides projected returns based on historical strategies, but market risks still apply.",
-  },
-  {
-    question: "Is there a minimum investment amount?",
-    answer:
-      "Yes. Each investment plan has a minimum entry amount, which is clearly displayed before confirmation.",
-  },
-  {
-    question: "Can I track my investment performance?",
-    answer:
-      "Yes. All users have access to a real-time dashboard showing performance, duration, and historical returns.",
-  },
-];
+
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [faqs, setFaqs] = useState();
+  const [loading, setLoading] = useState(false);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+   const getFaqs = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get("/faqs");
+        
+        if (res.data.status === "success") {
+          setFaqs(res.data.data.faqs);
+          console.log("Fetched FAQs:", res.data);
+        }
+      } catch (err) {
+        toast.error("Failed to load FAQs");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+  useEffect(() => {
+    getFaqs();
+  }, []);
+
+  if (loading) return <PageLoader />;
+  if (!faqs) return null;
+
 
   return (
     <section className="bg-gray-50">

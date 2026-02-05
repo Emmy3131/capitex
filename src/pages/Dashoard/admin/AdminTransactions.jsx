@@ -1,189 +1,248 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaCheck, FaTimes } from "react-icons/fa";
 import PageLoader from "../../../components/Loader/PageLoader";
+import StatusBadge from "../../../components/StatusBadge";
 import api from "../../../Library/api";
+import { toast } from "react-toastify";
 
-const Transactions = () => {
-  const [selectedTx, setSelectedTx] = useState(null);
+const AdminTransactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [selectedTx, setSelectedTx] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
 
-  const getTransactions = async () => {
+  /* ================= FETCH ALL TRANSACTIONS ================= */
+  const fetchTransactions = async () => {
     setLoading(true);
     try {
-      const res = await api.get("/transactions");
+      const res = await api.get("/users/me/transactions");
       if (res.data.status === "success") {
+        console.log("Fetched transactions:", res.data);
         setTransactions(res.data.data.transactions);
       }
     } catch (err) {
-      console.error("Error fetching transactions:", err);
+      console.error(err);
+      toast.error("Failed to fetch transactions");
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Fetch on component mount
   useEffect(() => {
-    getTransactions();
+    fetchTransactions();
   }, []);
+
+  /* ================= APPROVE ================= */
+  const approveTransaction = async (id) => {
+    setActionLoading(true);
+    try {
+      const res = await api.patch(`/transactions/${id}/action/approve`);
+      if (res.data.status === "success") {
+        setTransactions((prev) =>
+          prev.map((tx) =>
+            tx._id === id ? { ...tx, status: "approved" } : tx
+          )
+        );
+        setSelectedTx((prev) =>
+          prev ? { ...prev, status: "approved" } : null
+        );
+        toast.success("Transaction approved");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Approval failed");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  /* ================= DECLINE ================= */
+  const declineTransaction = async (id) => {
+    setActionLoading(true);
+    try {
+      const res = await api.patch(`/transactions/${id}/action/decline`);
+      if (res.data.status === "success") {
+        setTransactions((prev) =>
+          prev.map((tx) =>
+            tx._id === id ? { ...tx, status: "declined" } : tx
+          )
+        );
+        setSelectedTx((prev) =>
+          prev ? { ...prev, status: "declined" } : null
+        );
+        toast.success("Transaction declined");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Decline failed");
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   if (loading) return <PageLoader />;
 
+  const isDeposit = selectedTx?.type === "deposit";
+  const isWithdrawal = selectedTx?.type === "withdrawal";
+
   return (
     <div className="space-y-6">
-      {/* Header */}
+
+      {/* HEADER */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">
-          Transactions
-        </h1>
+        <h1 className="text-2xl font-bold">Admin Transactions</h1>
         <p className="text-sm text-gray-500">
-          Review and manage all transactions
+          Review and manage all user transactions
         </p>
       </div>
 
+      {/* TABLE */}
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="min-w-[900px] w-full text-sm">
+          <thead className="bg-gray-100">
+            <tr className="text-left">
+              <th className="px-5 py-3">User</th>
+              <th className="px-5 py-3">Type</th>
+              <th className="px-5 py-3">Amount</th>
+              <th className="px-5 py-3">Status</th>
+              <th className="px-5 py-3">Date</th>
+              <th className="px-5 py-3">Action</th>
+            </tr>
+          </thead>
 
-      <div className="bg-white rounded-xl shadow">
-        {/* Scroll container */}
-        <div className="overflow-x-auto max-w-full">
-          <table className="min-w-[900px] w-full text-sm">
-            <thead className="bg-gray-100 text-gray-600">
-              <tr className="text-left">
-                <th className="px-5 py-3 text-left whitespace-nowrap">
-                  User
-                </th>
-                <th className="px-5 py-3 whitespace-nowrap">
-                  Type
-                </th>
-                <th className="px-5 py-3 whitespace-nowrap">
-                  Amount
-                </th>
-                <th className="px-5 py-3 whitespace-nowrap">
-                  Status
-                </th>
-                <th className="px-5 py-3 whitespace-nowrap">
-                  Date
-                </th>
-                <th className="px-5 py-3 whitespace-nowrap">
-                  Actions
-                </th>
+          <tbody>
+            {transactions.map((tx) => (
+              <tr key={tx._id} className="border-b border-gray-100 hover:bg-gray-50">
+                <td className="px-5 py-3 flex items-center gap-3">
+                  {tx.user.name}
+                </td>
+
+                <td className="px-5 py-3 capitalize">{tx.type}</td>
+
+                <td className="px-5 py-3 font-semibold">
+                  ${tx.amount.toLocaleString()}
+                </td>
+
+                <td className="px-5 py-3">
+                  <StatusBadge status={tx.status} />
+                </td>
+
+                <td className="px-5 py-3">
+                  {new Date(tx.createdAt).toLocaleDateString()}
+                </td>
+
+                <td className="px-5 py-3">
+                  <button
+                    onClick={() => setSelectedTx(tx)}
+                    className="text-blue-600 flex items-center gap-1"
+                  >
+                    <FaEye /> View
+                  </button>
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              {transactions.map((tx) => (
-                <tr
-                  key={tx.id}
-                  className="shadow-sm hover:bg-gray-50"
-                >
-                  <td className="px-5 py-3 flex items-center gap-3 whitespace-nowrap">
-                    <img
-                      src={tx.photo}
-                      alt=""
-                      className="w-8 h-8 rounded-full"
-                    />
-                    {tx.user}
-                  </td>
-
-                  <td className="px-5 py-3 capitalize whitespace-nowrap">
-                    {tx.type}
-                  </td>
-
-                  <td className="px-5 py-3 font-semibold whitespace-nowrap">
-                    ₦{tx.amount.toLocaleString()}
-                  </td>
-
-                  <td className="px-5 py-3 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${statusStyle[tx.status]}`}
-                    >
-                      {tx.status}
-                    </span>
-                  </td>
-
-                  <td className="px-5 py-3 whitespace-nowrap">
-                    {tx.date}
-                  </td>
-
-                  <td className="px-5 py-3 whitespace-nowrap">
-                    <button
-                      onClick={() => setSelectedTx(tx)}
-                      className="text-blue-600 hover:underline flex items-center gap-1"
-                    >
-                      <FaEye /> View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-
-      {/* DETAILS MODAL */}
+      {/* ================= MODAL ================= */}
       {selectedTx && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl w-full max-w-xl p-6 space-y-6">
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white max-w-xl w-full rounded-xl p-6 space-y-6">
 
-            {/* USER HEADER */}
-            <div className="flex items-center gap-5">
+            {/* USER */}
+            <div className="flex items-center gap-4">
               <img
-                src={selectedTx.photo}
-                alt={selectedTx.user}
-                className="w-16 h-16 rounded-full object-cover border-4 border-blue-500"
+                src={selectedTx.user.photo}
+                className="w-14 h-14 rounded-full"
+                alt=""
               />
-
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {selectedTx.user}
-                </h3>
+                <h3 className="font-semibold">{selectedTx.user.name}</h3>
                 <p className="text-sm text-gray-500">
-                  {selectedTx.email}
+                  {selectedTx.user.email}
                 </p>
-
-                <span
-                  className={`inline-block mt-2 text-xs px-3 py-1 rounded-full font-semibold
-              ${statusStyle[selectedTx.status]}
-            `}
-                >
-                  {selectedTx.status}
-                </span>
+                <StatusBadge status={selectedTx.status} />
               </div>
             </div>
 
-            {/* TRANSACTION SUMMARY */}
-            <div className="bg-gray-50 rounded-xl p-4 space-y-3 text-sm">
+            {/* BASIC DETAILS */}
+            <div className="bg-gray-50 p-4 rounded-lg text-sm space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-500">Transaction Type</span>
-                <span className="font-semibold capitalize">
-                  {selectedTx.type}
-                </span>
+                <span>Type</span>
+                <span className="capitalize">{selectedTx.type}</span>
               </div>
-
               <div className="flex justify-between">
-                <span className="text-gray-500">Amount</span>
-                <span className="font-semibold text-green-600">
-                  ₦{selectedTx.amount.toLocaleString()}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-500">Date</span>
+                <span>Amount</span>
                 <span className="font-semibold">
-                  {selectedTx.date}
+                  ${selectedTx.amount.toLocaleString()}
                 </span>
               </div>
             </div>
 
-            {/* RECEIPT */}
-            {selectedTx.type === "deposit" && selectedTx.receipt && (
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm">
-                <p className="font-semibold text-blue-700 mb-1">
-                  Payment Receipt
-                </p>
-                <button className="text-blue-600 underline">
-                  View Uploaded Receipt
+            {/* ===== DEPOSIT → RECEIPT ===== */}
+            {isDeposit && selectedTx.receipt && (
+              <>
+                <button
+                  onClick={() => setShowReceipt(true)}
+                  className="text-blue-600 underline"
+                >
+                  View Receipt
                 </button>
+
+                {showReceipt && (
+                  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+                    <div className="bg-white max-w-3xl w-full p-4 rounded-xl relative">
+                      <button
+                        onClick={() => setShowReceipt(false)}
+                        className="absolute top-3 right-3"
+                      >
+                        ✕
+                      </button>
+
+                      {selectedTx.receipt.match(/\.(jpg|jpeg|png)$/i) && (
+                        <img
+                          src={selectedTx.receipt}
+                          className="w-full max-h-[70vh] object-contain"
+                          alt=""
+                        />
+                      )}
+
+                      {selectedTx.receipt.match(/\.pdf$/i) && (
+                        <iframe
+                          src={selectedTx.receipt}
+                          className="w-full h-[70vh]"
+                          title="Receipt"
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* ===== WITHDRAWAL → BANK DETAILS ===== */}
+            {isWithdrawal && selectedTx.bankDetails && (
+              <div className="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
+                <h4 className="font-semibold">Withdrawal Account</h4>
+
+                <div className="flex justify-between">
+                  <span>Bank</span>
+                  <span>{selectedTx.bankDetails.bankName}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Account Name</span>
+                  <span>{selectedTx.bankDetails.accountName}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Account Number</span>
+                  <span className="font-mono">
+                    {selectedTx.bankDetails.accountNumber}
+                  </span>
+                </div>
               </div>
             )}
 
@@ -192,36 +251,36 @@ const Transactions = () => {
               {selectedTx.status === "pending" && (
                 <>
                   <button
-                    className="flex items-center gap-2 px-4 py-2
-              bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                    onClick={() => approveTransaction(selectedTx._id)}
+                    disabled={actionLoading}
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg"
                   >
-                    <FaCheck />
-                    Approve
+                    <FaCheck /> Approve
                   </button>
 
                   <button
-                    className="flex items-center gap-2 px-4 py-2
-              bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                    onClick={() => declineTransaction(selectedTx._id)}
+                    disabled={actionLoading}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
                   >
-                    <FaTimes />
-                    Decline
+                    <FaTimes /> Decline
                   </button>
                 </>
               )}
 
               <button
                 onClick={() => setSelectedTx(null)}
-                className="px-4 py-2 border rounded-lg hover:bg-gray-100 transition"
+                className="border px-4 py-2 rounded-lg"
               >
                 Close
               </button>
             </div>
+
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
-export default Transactions;
+export default AdminTransactions;

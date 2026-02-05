@@ -4,7 +4,7 @@ import heroBg from '../../assets/bgImage/heroBg.webp';
 const Hero = () => {
   return (
     <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white">
-      <div className="max-w-7xl mx-auto px-6 py-7 grid lg:grid-cols-2 gap-14 items-center">
+      <div data-aos="fade-up" className="max-w-7xl  mx-auto px-6 py-7 grid lg:grid-cols-2 gap-14 items-center">
 
         {/* LEFT CONTENT */}
         <div>

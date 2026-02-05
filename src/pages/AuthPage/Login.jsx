@@ -34,7 +34,13 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
         toast.success("Login successful!");
         console.log("Login successful", res.data);
-        navigate("/dashboard");
+
+        if(res.data.data.user.role === 'user'){
+           navigate("/dashboard");
+        }else if(res.data.data.user.role === 'admin'){
+           navigate("/admin/dashboard");
+        }
+       
       }
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
@@ -45,12 +51,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
-
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Welcome Back
-        </h2>
 
         {error && (
           <p className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm text-center">

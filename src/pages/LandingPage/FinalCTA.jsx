@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 const FinalCTA = () => {
   return (
     <section className="bg-gradient-to-r from-emerald-700 to-green-600 py-24">
-      <div className="max-w-6xl mx-auto px-6 text-center text-white">
+      <div data-aos="fade-up" className="max-w-6xl mx-auto px-6 text-center text-white">
 
         {/* Headline */}
         <h2 className="text-4xl md:text-5xl font-extrabold mb-6">

@@ -1,14 +1,60 @@
-const stats = [
-  { label: "Account Balance", value: "₦250,000" },
-  { label: "Referral Balance", value: "₦45,000" },
-  { label: "Total Referrals", value: "12" },
-  { label: "Total Withdrawals", value: "₦150,000" },
-];
+import api from "../../Library/api";
+import { useEffect, useState } from "react";
+import PageLoader from "../Loader/PageLoader";
 
 const AccountStats = () => {
+  const [loading, setLoading] = useState(false);
+  const [statsData, setStatsData] = useState(null);
+
+  /* ======================
+     FETCH USER STATS
+  ====================== */
+  const fetchStats = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/stats/users");
+
+      if (res.data.status === "success") {
+        setStatsData(res.data.data.stats);
+      }
+    } catch (err) {
+      console.error("Failed to fetch account stats", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  if (loading || !statsData) return <PageLoader />;
+
+  /* ======================
+     FORMAT STATS FOR UI
+  ====================== */
+  const displayStats = [
+    {
+      label: "Account Balance",
+      value: `$${statsData.wallet?.balance?.toLocaleString() || 0}`,
+    },
+    {
+      label: "Referral Balance",
+      value: `$${statsData.wallet?.referralBalance?.toLocaleString() || 0}`,
+    },
+    {
+      label: "Total Referrals",
+      value: statsData.total_referrals,
+    },
+    {
+      label: "Total Withdrawals",
+      value: `$${statsData.total_withdrawal?.toLocaleString() || 0}`,
+    },
+  ];
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat) => (
+      {displayStats.map((stat) => (
         <div
           key={stat.label}
           className="bg-white p-5 rounded-xl shadow"

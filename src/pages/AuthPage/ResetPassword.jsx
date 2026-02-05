@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import ButtonLoader from "../../components/Loader/ButtonLoader.jsx";
+import api from "../../Library/api.jsx";
+import { useSearchParams } from "react-router-dom";
 
 const ResetPassword = () => {
-  const { token } = useParams(); // 👈 token from email link
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("t");
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
@@ -15,8 +17,7 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const baseURL = `https://capitex-api.vercel.app/api/v1/users/resetPassword/${token}`;
-
+  /* ================= RESET PASSWORD ================= */
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setError("");
@@ -30,25 +31,18 @@ const ResetPassword = () => {
     try {
       setLoading(true);
 
-      const res = await axios.patch(
-        baseURL,
-        {
-          password,
-          passwordConfirm,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await api.patch(`/users/resetPassword/${token}`, {
+        password,
+        passwordConfirm,
+      });
 
       if (res.data.status === "success") {
         setSuccess("Password reset successful. Redirecting...");
         setTimeout(() => navigate("/auth"), 2000);
+        token = '/users/resetPassword/:token';
       }
     } catch (err) {
-      console.error("Reset Password error:", err.response?.data || err.message);
+      console.error(err);
       setError(err.response?.data?.message || "Reset failed");
     } finally {
       setLoading(false);
@@ -78,7 +72,7 @@ const ResetPassword = () => {
         <form className="space-y-5" onSubmit={handleResetPassword}>
           {/* New Password */}
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium mb-1">
               New Password
             </label>
             <input
@@ -86,8 +80,7 @@ const ResetPassword = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border rounded-lg
-              focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
             />
             <span
               onClick={() => setShowPassword(!showPassword)}
@@ -99,7 +92,7 @@ const ResetPassword = () => {
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium mb-1">
               Confirm New Password
             </label>
             <input
@@ -107,17 +100,14 @@ const ResetPassword = () => {
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               required
-              className="w-full px-4 py-3 border rounded-lg
-              focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 text-white py-3 rounded-lg
-            font-medium hover:bg-green-700 transition shadow-md
-            disabled:opacity-50"
+            className="w-full bg-green-600 text-white py-3 rounded-lg disabled:opacity-50"
           >
             {loading ? <ButtonLoader /> : "Reset Password"}
           </button>

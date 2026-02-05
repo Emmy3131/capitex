@@ -4,9 +4,6 @@ import PageLoader from "../../../components/Loader/PageLoader";
 import { useEffect, useState } from "react";
 import AdminQuickAction from "../../../components/AdminQuickAction"
 
-
-
-
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,17 +25,17 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-  
+
   const getDashboardData = async () => {
     try {
-      const res = await api.get("/admin/dashboard");
+      const res = await api.get("/stats/admin");
 
       if (res.data.status === "success") {
         const { latest_transactions, latest_investments } =
           res.data.data;
 
-        setLatestTransactions(latest_transactions || []);
-        setLatestInvestments(latest_investments || []);
+        setLatestTransactions((latest_transactions || []).slice(0, 3));
+        setLatestInvestments((latest_investments || []).slice(0, 3));
       }
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
@@ -61,19 +58,19 @@ const Dashboard = () => {
     },
     {
       title: "Total Balance",
-      value: `₦${stats.total_balance}`,
+      value: `$${stats.total_balance}`,
       icon: <FaWallet />,
       color: "from-emerald-500 to-green-600",
     },
     {
       title: "Total Profits",
-      value: `₦${stats.total_profit}`,
+      value: `$${stats.total_profit}`,
       icon: <FaChartLine />,
       color: "from-purple-500 to-pink-600",
     },
     {
       title: "Referral Balance",
-      value: `₦${stats.total_referral_balance}`,
+      value: `$${stats.total_referral_balance}`,
       icon: <FaUserFriends />,
       color: "from-orange-500 to-amber-600",
     },
@@ -120,107 +117,130 @@ const Dashboard = () => {
 
 
       {/* QUICK ACTIONS */}
-      
+
       <AdminQuickAction />
 
-      {/* CHARTS */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {["Daily Deposits", "Withdrawals", "Investments"].map(
-          (chart, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl shadow p-5 h-64"
-            >
-              <h3 className="font-semibold mb-3">{chart}</h3>
-              <div className="h-full flex items-center justify-center text-gray-400">
-                Chart Placeholder
-              </div>
-            </div>
-          )
-        )}
-      </div>
-
       {/* TABLES */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {/* Recent Transactions */}
-        <tbody>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
+
+        {/* ================= RECENT TRANSACTIONS ================= */}
+        <div className="bg-white rounded-2xl shadow-sm p-6">
+          <div className="flex justify-between items-center mb-5">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Recent Transactions
+            </h3>
+            <span className="text-xs text-gray-400">Latest activity</span>
+          </div>
+
           {latestTransactions.length === 0 ? (
-            <tr>
-              <td
-                colSpan="5"
-                className="text-center py-6 text-gray-400"
-              >
-                No recent transactions
-              </td>
-            </tr>
+            <p className="text-center text-gray-400 py-10">
+              No recent transactions
+            </p>
           ) : (
-            latestTransactions.map((tx) => (
-              <tr key={tx._id} className="shadow-sm">
-                <td className="py-2 px-2">
-                  {tx.user?.name || "N/A"}
-                </td>
-                <td className="px-2 capitalize">{tx.type}</td>
-                <td className="px-2 font-medium">
-                  ₦{Number(tx.amount).toLocaleString()}
-                </td>
-                <td
-                  className={`px-2 font-medium ${tx.status === "success"
-                    ? "text-green-600"
-                    : tx.status === "pending"
-                      ? "text-yellow-500"
-                      : "text-red-500"
-                    }`}
+            <div className="space-y-4">
+              {latestTransactions.map((tx) => (
+                <div
+                  key={tx._id}
+                  className="flex items-center justify-between bg-gray-50
+            rounded-xl px-4 py-3 hover:bg-gray-100 transition"
                 >
-                  {tx.status}
-                </td>
-                <td className="px-2 text-gray-500">
-                  {new Date(tx.createdAt).toLocaleDateString()}
-                </td>
-              </tr>
-            ))
+                  {/* USER */}
+                  <div className="max-w-[120px] truncate">
+                    <p className="font-medium text-gray-800 w-[100px] truncate">
+                      {tx.user?.name || "N/A"}
+                    </p>
+                    <p className="text-xs text-gray-500 capitalize truncate">
+                      {tx.type}
+                    </p>
+                  </div>
+
+                  {/* AMOUNT */}
+                  <div className="font-semibold text-gray-800 max-w-[80px] truncate">
+                    ${Number(tx.amount).toLocaleString()}
+                  </div>
+
+                  {/* STATUS */}
+                  <span
+                    className={`text-xs px-3 py-1 rounded-full font-medium max-w-[80px] truncate
+              ${tx.status === "success"
+                        ? "bg-green-100 text-green-700"
+                        : tx.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                  >
+                    {tx.status}
+                  </span>
+
+                  {/* DATE */}
+                  <div className="text-xs text-gray-500 max-w-[80px] truncate">
+                    {new Date(tx.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
-        </tbody>
+        </div>
 
+        {/* ================= RECENT INVESTMENTS ================= */}
+        <div className="bg-white rounded-2xl shadow-sm p-6">
+          <div className="flex justify-between items-center mb-5">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Recent Investments
+            </h3>
+            <span className="text-xs text-gray-400">Latest plans</span>
+          </div>
 
-        {/* Recent Investments */}
-        <tbody>
           {latestInvestments.length === 0 ? (
-            <tr>
-              <td
-                colSpan="5"
-                className="text-center py-6 text-gray-400"
-              >
-                No recent investments
-              </td>
-            </tr>
+            <p className="text-center text-gray-400 py-10">
+              No recent investments
+            </p>
           ) : (
-            latestInvestments.map((inv) => (
-              <tr key={inv._id} className="shadow-sm">
-                <td className="py-2 px-2">
-                  {inv.user?.name || "N/A"}
-                </td>
-                <td className="px-2">{inv.plan?.name}</td>
-                <td className="px-2 font-medium">
-                  ₦{Number(inv.amount).toLocaleString()}
-                </td>
-                <td className="px-2 text-emerald-600 font-medium">
-                  ₦{Number(inv.profit).toLocaleString()}
-                </td>
-                <td
-                  className={`px-2 font-medium ${inv.status === "active"
-                    ? "text-blue-600"
-                    : "text-green-600"
-                    }`}
+            <div className="space-y-4">
+              {latestInvestments.map((inv) => (
+                <div
+                  key={inv._id}
+                  className="flex items-center justify-between bg-gray-50
+            rounded-xl px-4 py-3 hover:bg-gray-100 transition"
                 >
-                  {inv.status}
-                </td>
-              </tr>
-            ))
+                  {/* USER */}
+                  <div className="max-w-[120px] truncate">
+                    <p className="font-medium text-gray-800 truncate">
+                      {inv.user?.name || "N/A"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {inv.plan?.name}
+                    </p>
+                  </div>
+
+                  {/* AMOUNT */}
+                  <div className="font-semibold text-gray-800 max-w-[80px] truncate">
+                    ${Number(inv.amount).toLocaleString()}
+                  </div>
+
+                  {/* PROFIT */}
+                  <div className="text-sm font-medium text-emerald-600 max-w-[80px] truncate">
+                    +${Number(inv.profit).toLocaleString()}
+                  </div>
+
+                  {/* STATUS */}
+                  <span
+                    className={`text-xs px-3 py-1 rounded-full font-medium max-w-[80px] truncate
+              ${inv.status === "active"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-green-100 text-green-700"
+                      }`}
+                  >
+                    {inv.status}
+                  </span>
+                </div>
+              ))}
+            </div>
           )}
-        </tbody>
+        </div>
 
       </div>
-
+      
     </div>
   );
 };

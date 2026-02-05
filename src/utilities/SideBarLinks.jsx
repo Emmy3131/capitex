@@ -20,7 +20,7 @@ const SidebarLinks = {
   ],
   user: [
     { to: "/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
-    { to: "/investments", label: "Investments", icon: <FaChartLine /> },
+    { to: "/userInvestments", label: "Investments", icon: <FaChartLine /> },
     { to: "/transactions", label: "Transactions", icon: <FaExchangeAlt /> },
     { to: "/settings", label: "Settings", icon: <FaCog /> },
   ],

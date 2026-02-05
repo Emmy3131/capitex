@@ -9,6 +9,7 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]); // ✅ must be array
   const [loading, setLoading] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
+  const [wallet , setWallet] = useState(null);
 
   const closeModal = () => setSelectUser(null);
 
@@ -20,7 +21,7 @@ const ManageUsers = () => {
 
       // adjust this if backend structure differs
       if (res.data.status === "success") {
-        console.log("Fetched users:", res.data.data.users);
+        console.log("Fetched users:", res.data);
         setUsers(res.data.data.users);
       }
     } catch (err) {
@@ -78,12 +79,13 @@ const ManageUsers = () => {
     }
   };
 
-  // ✅ Call API on mount
+
   useEffect(() => {
     getUsers();
+    
   }, []);
 
-  // ✅ Loading state
+  
   if (loading) return <PageLoader />;
 
   return (
@@ -121,23 +123,18 @@ const ManageUsers = () => {
                 users.map((user) => (
                   <tr key={user._id} className="hover:bg-gray-50">
                     <td className="px-5 py-3 flex items-center gap-3">
-                      <img
-                        src={user.photo || "/avatar.png"}
-                        alt={user.name}
-                        className="w-9 h-9 rounded-full"
-                      />
                       <span className="font-medium">{user.name}</span>
                     </td>
 
                     <td className="px-5 py-3">{user.email}</td>
 
                     <td className="px-5 py-3 font-semibold">
-                      ₦{user.balance?.toLocaleString() || "0"}
+                      ${Number(user.wallet?.[0]?.balance || 0).toLocaleString()}
                     </td>
 
                     <td className="px-5 py-3">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${user.status === "Approved"
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${user.status?.toLowerCase().startsWith("approved")
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
                           }`}

@@ -1,23 +1,123 @@
-const InvestmentRow = () => (
-  <div className="border rounded-lg p-4 mb-4">
-    <div className="flex justify-between mb-2">
-      <p className="font-medium">Crypto Investment</p>
-      <span className="text-sm text-green-600">Active</span>
-    </div>
+import { useEffect, useState } from "react";
+import api from "../Library/api";
+import PageLoader from "./Loader/PageLoader";
 
-    <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-      <p>Start: 12 Jun 2025</p>
-      <p>End: 12 Jul 2025</p>
-      <p>Duration: 30 days</p>
-      <p>Remaining: 10 days</p>
-    </div>
+const InvestmentRow = () => {
+  const [latestInvestment, setLatestInvestment] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    <div className="mt-3">
-      <div className="h-2 bg-gray-200 rounded">
-        <div className="h-2 bg-green-600 rounded w-2/3"></div>
+  /* ======================
+     FETCH INVESTMENTS
+  ====================== */
+  const fetchInvestments = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/investments");
+
+      if (res.data.status === "success") {
+        const investments = res.data.data.investments || [];
+
+        if (investments.length > 0) {
+          // Sort by newest first (safest approach)
+          const sorted = investments.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+
+          setLatestInvestment(sorted[0]);
+        } else {
+          setLatestInvestment(null);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch investments", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvestments();
+  }, []);
+
+  /* ======================
+     STATES
+  ====================== */
+  if (loading) return <PageLoader />;
+
+  if (!latestInvestment) {
+    return (
+      <p className="text-sm text-gray-500 text-center">
+        No active investments
+      </p>
+    );
+  }
+
+  /* ======================
+     CALCULATIONS
+  ====================== */
+  const start = new Date(latestInvestment.createdAt);
+  const end = new Date(latestInvestment.expiryDate);
+  const now = new Date();
+
+  const totalDays =
+    (end - start) / (1000 * 60 * 60 * 24);
+
+  const elapsedDays =
+    (now - start) / (1000 * 60 * 60 * 24);
+
+  const remainingDays = Math.max(
+    Math.ceil(totalDays - elapsedDays),
+    0
+  );
+
+  const progress = Math.min(
+    Math.round((elapsedDays / totalDays) * 100),
+    100
+  );
+
+  /* ======================
+     UI
+  ====================== */
+  return (
+    <div className="border rounded-lg p-4 space-y-3">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <p className="font-medium">
+          {latestInvestment.plan?.name || "Investment"}
+        </p>
+        <span
+          className={`text-sm font-medium ${
+            latestInvestment.status === "active"
+              ? "text-emerald-600"
+              : "text-gray-500"
+          }`}
+        >
+          {latestInvestment.status}
+        </span>
       </div>
-      <p className="text-xs text-gray-500 mt-1">65% completed</p>
+
+      {/* Dates */}
+      <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+        <p>Start: {start.toLocaleDateString()}</p>
+        <p>End: {end.toLocaleDateString()}</p>
+        <p>Duration: {Math.round(totalDays)} days</p>
+        <p>Remaining: {remainingDays} days</p>
+      </div>
+
+      {/* Progress */}
+      <div>
+        <div className="h-2 bg-gray-200 rounded">
+          <div
+            className="h-2 bg-emerald-600 rounded"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          {progress}% completed
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 export default InvestmentRow;

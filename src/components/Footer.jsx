@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaTelegramPlane, FaLinkedinIn } from "react-ico
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6 py-16">
 
         {/* TOP SECTION */}
         <div className="grid gap-10 md:grid-cols-4">

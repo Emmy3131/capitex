@@ -2,11 +2,11 @@ import InvestmentStats from "../../../components/investment/InvestmentStat";
 import InvestmentTable from "../../../components/investment/InvestmentTable";
 import { useNavigate } from "react-router-dom";
 
-const Investment = () => {
+const UserInvestments = () => {
   const navigate = useNavigate();
 
   const togglePlan = () => {
-    navigate("/investmentPlan");
+    navigate("/newInvest");
   };
 
   return (
@@ -32,4 +32,4 @@ const Investment = () => {
   );
 };
 
-export default Investment;
+export default UserInvestments;

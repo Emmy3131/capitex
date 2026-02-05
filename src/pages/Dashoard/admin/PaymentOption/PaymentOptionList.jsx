@@ -52,10 +52,10 @@ const PaymentOptionsList = () => {
       <table className="w-full text-sm">
         <thead className="text-gray-500">
           <tr className="text-left">
-            <th className="">Type</th>
-            <th className="">Bank</th>
-            <th className="">Account Number</th>
-            <th className="">Actions</th>
+            <th className="p-3">Type</th>
+            <th className="p-3">Bank / Network</th>
+            <th className="p-3">Account Number / Wallet Address</th>
+            <th className="p-3">Actions</th>
           </tr>
         </thead>
 
@@ -68,8 +68,8 @@ const PaymentOptionsList = () => {
             </tr>
           ) : (
             paymentOptions.map((opt) => (
-              <tr key={opt._id} className="border-t border-e-gray-300">
-                <td className="">{opt.payOption}</td>
+              <tr key={opt._id} className="border-b  border-gray-100">
+                <td className="p-3">{opt.payOption}</td>
                 <td>{opt.bank}</td>
                 <td>{opt.accountNumber}</td>
                 <td className="flex gap-3 mt-2">
@@ -77,7 +77,7 @@ const PaymentOptionsList = () => {
                     onClick={() =>
                       navigate(`/admin/payment-options/:id/edit/${opt._id}`)
                     }
-                    className="text-blue-600"
+                    className="text-emerald-600"
                   >
                     
                     < FaEdit />
