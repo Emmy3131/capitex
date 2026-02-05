@@ -41,7 +41,9 @@ const Testimonials = () => {
         </div>
 
         {/* Testimonials */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div data-aos="fade-up"
+          data-aos-offset="120"
+          data-aos-delay="100" className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((item, index) => (
             <div
               key={index}

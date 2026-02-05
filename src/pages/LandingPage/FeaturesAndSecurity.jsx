@@ -59,7 +59,9 @@ const FeaturesAndSecurity = () => {
         </div>
 
         {/* FEATURES GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div data-aos="fade-up"
+          data-aos-offset="120"
+          data-aos-delay="100" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, idx) => (
             <div
               key={idx}

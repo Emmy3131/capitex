@@ -20,28 +20,36 @@ const TrustSection = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
           {/* Users */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
+          <div data-aos="fade-up"
+  data-aos-offset="120"
+  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <Users className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">50K+</h3>
             <p className="text-gray-600 text-sm">Active Investors</p>
           </div>
 
           {/* Assets */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
+          <div data-aos="fade-up"
+  data-aos-offset="120"
+  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <TrendingUp className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">$120M+</h3>
             <p className="text-gray-600 text-sm">Assets Managed</p>
           </div>
 
           {/* Security */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
+          <div data-aos="fade-up"
+  data-aos-offset="120"
+  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <Lock className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">Bank-Grade</h3>
             <p className="text-gray-600 text-sm">Security Infrastructure</p>
           </div>
 
           {/* Compliance */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
+          <div data-aos="fade-up"
+  data-aos-offset="120"
+  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <ShieldCheck className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">100%</h3>
             <p className="text-gray-600 text-sm">Transparent Operations</p>

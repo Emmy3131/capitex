@@ -49,7 +49,9 @@ const AppRoute = () => {
     AOS.init({
       duration: 700,
       easing: "ease-in-out",
-      once: true,
+      once: false,
+      mirror: true,
+      offset: 80,
     });
   }, []);
   return (

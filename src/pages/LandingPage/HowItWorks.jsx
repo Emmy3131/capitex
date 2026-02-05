@@ -20,7 +20,9 @@ const HowItWorks = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
           {/* Step 1 */}
-          <div className="text-center">
+          <div data-aos="fade-up"
+            data-aos-offset="120"
+            data-aos-delay="100" className="text-center">
             <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-green-100">
               <UserPlus className="text-green-600" />
             </div>
@@ -31,7 +33,9 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 2 */}
-          <div className="text-center">
+          <div data-aos="fade-up"
+            data-aos-offset="120"
+            data-aos-delay="100" className="text-center">
             <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-green-100">
               <Wallet className="text-green-600" />
             </div>
@@ -42,7 +46,9 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 3 */}
-          <div className="text-center">
+          <div data-aos="fade-up"
+            data-aos-offset="120"
+            data-aos-delay="100" className="text-center">
             <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-green-100">
               <BarChart3 className="text-green-600" />
             </div>
@@ -53,7 +59,9 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 4 */}
-          <div className="text-center">
+          <div data-aos="fade-up"
+            data-aos-offset="120"
+            data-aos-delay="100" className="text-center">
             <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-green-100">
               <CheckCircle className="text-green-600" />
             </div>
