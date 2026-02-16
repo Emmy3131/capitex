@@ -46,27 +46,34 @@ const CreatePaymentOption = () => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Payment Option */}
+        {/* Crypto Type */}
         <div>
           <label className="text-sm text-gray-600 mb-1 block">
-            Payment Option
+            Crypto Type
           </label>
           <select
             className="w-full bg-gray-100 border border-gray-200 p-3 rounded-lg"
-            value={form.payOption}
+            value={form.bank}
             onChange={(e) =>
-              setForm({ ...form, payOption: e.target.value })
+              setForm({ ...form, bank: e.target.value })
             }
           >
-            <option>Crypto Wallet</option>
-            <option>Bank</option>
+            <option value="">Select Crypto</option>
+            <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+            <option value="USDT (TRC20)">USDT (TRC20)</option>
+            <option value="USDT (ERC20)">USDT (ERC20)</option>
+            <option value="Ethereum (ETH)">Ethereum (ETH)</option>
+            <option value="Solana (SOL)">Solana (SOL)</option>
+            <option value="BNB Smart Chain">BNB Smart Chain</option>
+            <option value="Litecoin (LTC)">Litecoin (LTC)</option>
           </select>
         </div>
+
 
         {/* Bank / Wallet Name */}
         <div>
           <label className="text-sm text-gray-600 mb-1 block">
-             Wallet Network
+            Wallet Network
           </label>
           <input
             type="text"
