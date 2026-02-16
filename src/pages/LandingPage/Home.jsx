@@ -11,12 +11,12 @@ const Home = () => {
   return(
     <div className="overFloating-hidden">
       <Hero />
-      {/* <Trust />
-      <HowItWorks />
+      <Trust /> 
+      {/* <HowItWorks />
       <FeaturesAndSecurity />
       <TradingViewWidget />
       <Testimony />
-      <FinalCTA /> */}
+      <FinalCTA />  */}
       
       
     </div>
