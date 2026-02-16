@@ -66,11 +66,11 @@ const CreatePaymentOption = () => {
         {/* Bank / Wallet Name */}
         <div>
           <label className="text-sm text-gray-600 mb-1 block">
-            Bank Name / Wallet
+             Wallet Network
           </label>
           <input
             type="text"
-            placeholder="Enter Bank Name or Wallet"
+            placeholder="Enter Wallet Network"
             className="w-full bg-gray-100 border border-gray-200 p-3 rounded-lg"
             value={form.bank}
             onChange={(e) =>

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../Library/api";
 import PageLoader from "../../../../components/Loader/PageLoader";
+import { Link } from "react-router-dom"
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const EditPlan = () => {
   const { id } = useParams();
@@ -79,7 +81,29 @@ const EditPlan = () => {
   if (fetching) return <PageLoader />;
 
   return (
-    <div className="max-w-2xl bg-white p-6 rounded-xl shadow">
+    <div className="relative min-h-screen bg-gray-50 py-6">
+           <Link
+        to={"/admin/plans"}
+        className="
+          fixed top-18 md:top-5 left-1 md:left-69
+          flex items-center justify-center
+          w-10 h-10 md:w-11 md:h-11
+          rounded-full
+          bg-white
+          text-emerald-600
+          shadow-md
+          border border-emerald-100
+          hover:bg-emerald-600
+          hover:text-white
+          hover:shadow-lg
+          active:scale-95
+          transition-all duration-200
+          z-50
+        "
+      >
+        <FaArrowLeftLong className="text-lg md:text-xl" />
+      </Link>
+      <div className="max-w-2xl bg-white p-6 m-auto rounded-xl shadow">
       <h2 className="text-xl font-bold mb-4">Edit Plan</h2>
 
       <form onSubmit={submit} className="space-y-4">
@@ -96,7 +120,7 @@ const EditPlan = () => {
           placeholder="Min Deposit"
           value={form.minDeposit}
           onChange={handleChange}
-          className="input"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
         <input
           name="maxDeposit"
@@ -104,7 +128,7 @@ const EditPlan = () => {
           placeholder="Max Deposit"
           value={form.maxDeposit}
           onChange={handleChange}
-          className="input"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
         <input
           name="planDuration"
@@ -112,7 +136,7 @@ const EditPlan = () => {
           placeholder="Duration"
           value={form.planDuration}
           onChange={handleChange}
-          className="input"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
         <input
           name="percentage"
@@ -120,7 +144,7 @@ const EditPlan = () => {
           placeholder="ROI %"
           value={form.percentage}
           onChange={handleChange}
-          className="input"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
         <input
           name="referalBonus"
@@ -128,7 +152,7 @@ const EditPlan = () => {
           placeholder="Referral Bonus %"
           value={form.referalBonus}
           onChange={handleChange}
-          className="input"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
 
         <label className="flex items-center gap-2">
@@ -147,6 +171,7 @@ const EditPlan = () => {
             name="returnPrincipal"
             checked={form.returnPrincipal}
             onChange={handleChange}
+          
           />
           Return Principal
         </label>
@@ -161,6 +186,7 @@ const EditPlan = () => {
           {loading ? "Updating..." : "Update Plan"}
         </button>
       </form>
+    </div>
     </div>
   );
 };

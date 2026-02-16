@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Investment = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   /* =========================
@@ -19,6 +20,7 @@ const Investment = () => {
 
       if (res.data.status === "success") {
         setPlans(res.data.data.plans);
+        console.log("Fetched Plans:", res.data);
       }
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -28,6 +30,23 @@ const Investment = () => {
     }
   };
 
+  const getloggedInUser = async () => {
+    try {
+      const res = await api.get("/users/me");
+      if (res.data.status === "success") {
+        setUser(res.data.data.user);
+        if(!res.data.data.user){
+          navigate("/auth?tab=signIn");
+        }else{
+          navigate("/userInvestments");
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch user data", err);
+      return null;
+    }
+  };
+  
   useEffect(() => {
     getPlans();
   }, []);
@@ -39,7 +58,7 @@ const Investment = () => {
     <div className="bg-gray-50 min-h-screen">
 
       {/* HEADER */}
-      <section className="bg-gradient-to-r from-emerald-700 to-green-600 text-white py-20 px-6 text-center">
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-gray-300 py-20 px-6 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
           Investment Plans
         </h1>

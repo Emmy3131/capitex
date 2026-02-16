@@ -3,7 +3,7 @@ import logo from "../assets/logo/logo.png";
 const Brand = ({
   showText = true,
   size = "md",
-  textColor = "text-green-600",
+  textColor = "text-emerald-600",
 }) => {
   const sizes = {
     sm: "w-6 h-6",
@@ -15,7 +15,7 @@ const Brand = ({
     <div className="flex items-center gap-2 select-none">
       {/* Logo */}
       <div
-        className={`${sizes[size]} rounded-full overflow-hidden bg-gradient-to-r from-emerald-600 to-blue-600 flex items-center justify-center`}
+        className={`${sizes[size]} rounded-full overflow-hidden bg-gradient-to-r from-emerald-400 to-black/50 flex items-center justify-center`}
       >
         <img
           src={logo}
@@ -29,7 +29,7 @@ const Brand = ({
         <span
           className={`text-xl font-bold tracking-wide ${textColor}`}
         >
-          Capitex
+          CAPITEX
         </span>
       )}
     </div>

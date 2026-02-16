@@ -1,6 +1,20 @@
 import { FaWallet } from "react-icons/fa";
+import api from "../../Library/api";
 
 const FundUser = ({ user }) => {
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const dataTosend = Object.fromEntries(formData);
+    try{
+      const res = await api.patch(`users/${user._id}/wallets`, dataTosend);
+      console.log(res);
+      
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
   return (
     <div className="">
       {/* Header */}
@@ -91,15 +105,15 @@ const FundUser = ({ user }) => {
               Fund Wallet
             </h4>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="text-sm text-gray-600">
                   Wallet to Fund
                 </label>
-                <select className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none">
-                  <option>Main Wallet</option>
-                  <option>Profit Wallet</option>
-                  <option>Referral Wallet</option>
+                <select className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none" name='wallet_type'>
+                  <option value='balance'>Main Balance</option>
+                  <option value='profit'>Profit Balance</option>
+                  <option value='referralBalance'>Referral Balance</option>
                 </select>
               </div>
 
@@ -111,6 +125,7 @@ const FundUser = ({ user }) => {
                   type="number"
                   placeholder="Enter amount"
                   className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 outline-none"
+                  name='amount'
                 />
               </div>
 

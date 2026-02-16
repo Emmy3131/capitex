@@ -44,7 +44,7 @@ const FAQ = () => {
       <div className="">
 
         {/* Header */}
-        <section className="bg-gradient-to-r from-green-700 to-emerald-600 text-white py-20 px-6 text-center">
+        <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-gray-300 py-20 px-6 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4"> Frequently Asked Questions</h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
            Clear answers to common questions about investing with Capitex.

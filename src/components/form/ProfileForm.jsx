@@ -1,6 +1,8 @@
 import { useState } from "react";
 import api from "../../Library/api";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom"
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const ProfileForm = ({ user, onSuccess, allowRoleChange = false }) => {
   const [formData, setFormData] = useState({
@@ -52,64 +54,89 @@ const ProfileForm = ({ user, onSuccess, allowRoleChange = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow space-y-4">
-      <h2 className="text-lg font-semibold">Update Profile</h2>
+    <div className="relative min-h-screen bg-gray-50 py-6">
 
-      <input
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Full Name"
-        className="w-full border p-2 rounded"
-      />
-
-      <input
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className="w-full border p-2 rounded"
-      />
-
-      <input
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        className="w-full border p-2 rounded"
-      />
-
-      <select
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
-        className="w-full border p-2 rounded"
+      <Link
+        to={"/settings"}
+        className="
+                fixed top-18 md:top-5 left-1 md:left-69
+                flex items-center justify-center
+                w-10 h-10 md:w-11 md:h-11
+                rounded-full
+                bg-white
+                text-emerald-600
+                shadow-md
+                border border-emerald-100
+                hover:bg-emerald-600
+                hover:text-white
+                hover:shadow-lg
+                active:scale-95
+                transition-all duration-200
+                z-50
+              "
       >
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
+        <FaArrowLeftLong className="text-lg md:text-xl" />
+      </Link>
 
-      {allowRoleChange && (
-        <select
-          name="role"
-          value={formData.role}
+      <form onSubmit={handleSubmit} className="md:w-4xl max-w-xl mx-auto bg-white p-6 rounded-xl shadow space-y-6">
+        <h2 className="text-lg font-semibold">Update Profile</h2>
+
+        <input
+          name="name"
+          value={formData.name}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      )}
+          placeholder="Full Name"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+        />
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700"
-      >
-        {loading ? "Updating..." : "Update Profile"}
-      </button>
-    </form>
+        <input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Email"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+        />
+
+        <input
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="Phone"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+        />
+
+        <select
+          name="gender"
+          value={formData.gender}
+          onChange={handleChange}
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+
+        {allowRoleChange && (
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700"
+        >
+          {loading ? "Updating..." : "Update Profile"}
+        </button>
+      </form>
+    </div>
   );
 };
 

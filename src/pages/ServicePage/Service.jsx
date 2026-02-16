@@ -5,7 +5,7 @@ const Service = () => {
     <div  className="min-h-screen bg-gray-50">
 
       {/* HERO SECTION */}
-      <section className="bg-gradient-to-r from-green-700 to-emerald-600 text-white py-20 px-6 text-center">
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-gray-300 py-20 px-6 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
           Capitex provides comprehensive crypto investment services tailored to your needs.
@@ -48,12 +48,7 @@ const Service = () => {
       <section className="py-16 px-6 text-center">
         <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
         <p className="text-gray-700 mb-6">Sign up today and start your crypto investment journey with Capitex.</p>
-        <a
-          href="/auth?tab=signUp"
-          className="inline-block bg-green-600 text-white font-semibold py-3 px-8 rounded-full shadow hover:bg-green-700 transition"
-        >
-          Get Started
-        </a>
+       
       </section>
 
     </div>

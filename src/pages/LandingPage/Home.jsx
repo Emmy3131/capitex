@@ -4,6 +4,8 @@ import HowItWorks from "./HowItWorks";
 import FeaturesAndSecurity from "./FeaturesAndSecurity";
 import Testimony from "./Testimony";
 import FinalCTA from "./FinalCTA";
+import TradingViewWidget from "./TradingViewWidget";
+
 
 const Home = () => {
   return(
@@ -12,8 +14,11 @@ const Home = () => {
       <Trust />
       <HowItWorks />
       <FeaturesAndSecurity />
+      <TradingViewWidget />
       <Testimony />
       <FinalCTA />
+      
+      
     </div>
   )
 };

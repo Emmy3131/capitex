@@ -2,6 +2,8 @@ import { useState } from "react";
 import api from "../../../../Library/api";
 import { toast } from "react-toastify";
 import ButtonLoader from "../../../../components/Loader/ButtonLoader";
+import { Link } from "react-router-dom"
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CreatePlan = () => {
   const [loading, setLoading] = useState(false);
@@ -149,164 +151,187 @@ const CreatePlan = () => {
      UI
   ========================== */
   return (
-    <div className="max-w-3xl bg-white p-6 rounded-xl shadow">
+   <div className="relative min-h-screen bg-gray-50 py-6">
+     <Link
+        to={"/admin/plans"}
+        className="
+          fixed top-18 md:top-5 left-1 md:left-69
+          flex items-center justify-center
+          w-10 h-10 md:w-11 md:h-11
+          rounded-full
+          bg-white
+          text-emerald-600
+          shadow-md
+          border border-emerald-100
+          hover:bg-emerald-600
+          hover:text-white
+          hover:shadow-lg
+          active:scale-95
+          transition-all duration-200
+          z-50
+        "
+      >
+        <FaArrowLeftLong className="text-lg md:text-xl" />
+      </Link>
+     <div className="max-w-3xl bg-white p-6 rounded-xl shadow">
       <h2 className="text-xl font-semibold mb-6">Create Investment Plan</h2>
 
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-5"
-      >
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-5"
+        >
 
-        {/* PLAN NAME */}
-        <div>
-          <label className="block text-sm mb-1">Plan Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-        </div>
-
-        {/* CURRENCY */}
-        <div>
-          <label className="block text-sm mb-1">Currency</label>
-          <select
-            name="currency"
-            value={formData.currency}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="USD">USD</option>
-            <option value="NGN">NGN</option>
-          </select>
-        </div>
-
-        {/* MIN DEPOSIT */}
-        <div>
-          <label className="block text-sm mb-1">Minimum Deposit</label>
-          <input
-            type="number"
-            name="minDeposit"
-            value={formData.minDeposit}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-        </div>
-
-        {/* MAX DEPOSIT */}
-        <div>
-          <label className="block text-sm mb-1">Maximum Deposit</label>
-          <input
-            type="number"
-            name="maxDeposit"
-            value={formData.maxDeposit}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-        </div>
-
-        {/* DURATION */}
-        <div>
-          <label className="block text-sm mb-1">Plan Duration</label>
-
-          <div className="flex gap-2">
+          {/* PLAN NAME */}
+          <div>
+            <label className="block text-sm mb-1">Plan Name</label>
             <input
-              type="number"
-              min="1"
-              name="planDuration"
-              value={formData.planDuration}
+              type="text"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              className="w-1/2 border rounded px-3 py-2"
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
               required
             />
+          </div>
 
+          {/* CURRENCY */}
+          <div>
+            <label className="block text-sm mb-1">Currency</label>
             <select
-              name="timingParameter"
-              value={formData.timingParameter}
+              name="currency"
+              value={formData.currency}
               onChange={handleChange}
-              className="w-1/2 border rounded px-3 py-2"
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             >
-              <option value="days">Days</option>
-              <option value="weeks">Weeks</option>
-              <option value="months">Months</option>
+              <option value="USD">USD</option>
             </select>
           </div>
 
-          <p className="text-xs text-gray-500 mt-1">
-            Stored as{" "}
-            {formData.timingParameter === "months"
-              ? formData.planDuration * 30
-              : formData.timingParameter === "weeks"
-              ? formData.planDuration * 7
-              : formData.planDuration}{" "}
-            days
-          </p>
-        </div>
+          {/* MIN DEPOSIT */}
+          <div>
+            <label className="block text-sm mb-1">Minimum Deposit</label>
+            <input
+              type="number"
+              name="minDeposit"
+              value={formData.minDeposit}
+              onChange={handleChange}
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              required
+            />
+          </div>
 
-        {/* ROI */}
-        <div>
-          <label className="block text-sm mb-1">ROI Percentage (%)</label>
-          <input
-            type="number"
-            name="percentage"
-            value={formData.percentage}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-            required
-          />
-        </div>
+          {/* MAX DEPOSIT */}
+          <div>
+            <label className="block text-sm mb-1">Maximum Deposit</label>
+            <input
+              type="number"
+              name="maxDeposit"
+              value={formData.maxDeposit}
+              onChange={handleChange}
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              required
+            />
+          </div>
 
-        {/* REFERRAL BONUS */}
-        <div>
-          <label className="block text-sm mb-1">Referral Bonus (%)</label>
-          <input
-            type="number"
-            name="referalBonus"
-            value={formData.referalBonus}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
+          {/* DURATION */}
+          <div>
+            <label className="block text-sm mb-1">Plan Duration</label>
 
-        {/* TOGGLES */}
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="allowReferral"
-            checked={formData.allowReferral}
-            onChange={handleChange}
-          />
-          <span className="text-sm">Allow Referral</span>
-        </div>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                min="1"
+                name="planDuration"
+                value={formData.planDuration}
+                onChange={handleChange}
+                className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                required
+              />
 
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="returnPrincipal"
-            checked={formData.returnPrincipal}
-            onChange={handleChange}
-          />
-          <span className="text-sm">Return Principal</span>
-        </div>
+              <select
+                name="timingParameter"
+                value={formData.timingParameter}
+                onChange={handleChange}
+                className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              >
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+                <option value="months">Months</option>
+              </select>
+            </div>
 
-        {/* SUBMIT */}
-        <div className="md:col-span-2">
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-          >
-            {loading ? <ButtonLoader /> : "Create Plan"}
-          </button>
-        </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Stored as{" "}
+              {formData.timingParameter === "months"
+                ? formData.planDuration * 30
+                : formData.timingParameter === "weeks"
+                  ? formData.planDuration * 7
+                  : formData.planDuration}{" "}
+              days
+            </p>
+          </div>
 
-      </form>
+          {/* ROI */}
+          <div>
+            <label className="block text-sm mb-1">ROI Percentage (%)</label>
+            <input
+              type="number"
+              name="percentage"
+              value={formData.percentage}
+              onChange={handleChange}
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* REFERRAL BONUS */}
+          <div>
+            <label className="block text-sm mb-1">Referral Bonus (%)</label>
+            <input
+              type="number"
+              name="referalBonus"
+              value={formData.referalBonus}
+              onChange={handleChange}
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+            />
+          </div>
+
+          {/* TOGGLES */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="allowReferral"
+              checked={formData.allowReferral}
+              onChange={handleChange}
+            />
+            <span className="text-sm">Allow Referral</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="returnPrincipal"
+              checked={formData.returnPrincipal}
+              onChange={handleChange}
+            />
+            <span className="text-sm">Return Principal</span>
+          </div>
+
+          {/* SUBMIT */}
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-800"
+            >
+              {loading ? <ButtonLoader /> : "Create Plan"}
+            </button>
+          </div>
+
+        </form>
+      
     </div>
+   </div>
   );
 };
 

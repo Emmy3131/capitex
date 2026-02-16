@@ -50,7 +50,9 @@ const TransactionTable = () => {
               <td className="px-6 py-4">
                 <StatusBadge status={tx.status} />
               </td>
-              <td className="px-6 py-4">{tx.createdAt}</td>
+              <td className="px-6 py-4">
+                {new Date(tx.createdAt).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </tbody>

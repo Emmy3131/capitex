@@ -3,7 +3,7 @@ const QuickAction = ({ label, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+      className="px-4 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-800 transition"
     >
       {label}
     </button>

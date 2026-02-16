@@ -1,7 +1,11 @@
 import { FaShieldAlt, FaChartLine, FaGlobe } from "react-icons/fa";
 import heroBg from '../../assets/bgImage/heroBg.webp';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
+
+
   return (
     <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white">
       <div data-aos="fade-up" className="max-w-7xl  mx-auto px-6 py-7 grid lg:grid-cols-2 gap-14 items-center">
@@ -31,12 +35,12 @@ const Hero = () => {
 
           {/* CTA */}
           <div className="flex flex-wrap gap-4">
-            <button className="px-7 py-3 rounded-full bg-green-600 hover:bg-green-700 transition font-medium shadow-lg">
+            <Link to={'/auth?tab=signUp'} className="px-7 py-3 rounded-full bg-green-600 hover:bg-green-700 transition font-medium shadow-lg">
               Get Started
-            </button>
-            <button className="px-7 py-3 rounded-full border border-gray-500 hover:border-white transition">
+            </Link>
+            <Link to={'/investment'} className="px-7 py-3 rounded-full border border-gray-500 hover:border-white transition">
               View Investment Plans
-            </button>
+            </Link>
           </div>
         </div>
 

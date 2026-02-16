@@ -6,6 +6,14 @@ import api from "../../../Library/api";
 import PageLoader from "../../../components/Loader/PageLoader.jsx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import CryptoPrices from "./CryptoPrice.jsx"; 
+import { FaWallet, FaChartLine, FaUserFriends } from "react-icons/fa";
+
+import TradingViewWidget from "./TradingViewWidget";
+import MarketOverview from "./MarketOverview";
+
+
+
 
 const UserDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -36,9 +44,9 @@ const UserDashboard = () => {
     }
   };
 
-  const doMining = async()=>{
+  const doMining = async () => {
     const res = await api.patch("/users/me/investments/mine");
-    
+
   }
 
   /* ======================
@@ -66,16 +74,12 @@ const UserDashboard = () => {
   if (loading) return <PageLoader />;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
 
       {/* ===== Welcome ===== */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Welcome back,{" "}
-          <span className="text-emerald-600 font-bold">
-            {user?.name}
-          </span>{" "}
-          👋
+        <h1 className="text-2xl font-bold">
+          Welcome back, {user?.name?.split(" ")[0] || "Investor"}!
         </h1>
         <p className="text-gray-500 text-sm">
           Here’s what’s happening with your account today
@@ -87,21 +91,25 @@ const UserDashboard = () => {
         <StatCard
           title="Account Balance"
           value={`$${stats?.wallet?.balance?.toLocaleString() || 0}`}
+          icon = {<FaWallet/>}
         />
 
         <StatCard
           title="Referral Balance"
           value={`$${stats?.wallet?.referralBalance?.toLocaleString() || 0}`}
+          icon = {<FaUserFriends/>}
         />
 
         <StatCard
           title="Total Deposit"
           value={`$${stats?.total_deposit?.toLocaleString() || 0}`}
+          icon = {<FaChartLine/>}
         />
 
         <StatCard
           title="Accrued Profit"
           value={`$${stats?.wallet?.profit?.toLocaleString() || 0}`}
+          icon = {<FaChartLine/>}
         />
       </div>
 
@@ -141,15 +149,21 @@ const UserDashboard = () => {
             </div>
           </div>
 
+         
+
           <div className="mt-4">
             <p className="text-sm text-gray-500">Referral Link</p>
             <input
               readOnly
-              value={`https://capitex.com/ref/${user?._id}`}
+              value={`${import.meta.env.VITE_APP_URL}/auth?tab=signUp&refId=${user.accountId}`}
               className="w-full mt-1 px-3 py-2 text-sm border rounded-lg bg-gray-100"
             />
           </div>
         </div>
+      </div>
+
+      <div className="w-4xl">
+        <CryptoPrices />
       </div>
 
       {/* ===== Recent Transactions ===== */}
@@ -172,6 +186,12 @@ const UserDashboard = () => {
           </tbody>
         </table>
       </div>
+
+      {/* TradingView Widget  */}
+      <div className="bg-white rounded-xl shadow p-6 w-4xl mx-auto">
+        <MarketOverview />
+      </div>
+      {/* <TradingViewWidget /> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import api from "../../Library/api.jsx";
 import { toast } from "react-toastify"; 
@@ -12,6 +12,10 @@ const SignUp = () => {
   const baseURL = "https://capitex-api.vercel.app/api/v1/users/signup";
   const token = localStorage.getItem("token");
   const [error, setError] = useState("");
+  const[searchParams] = useSearchParams();
+
+  const refId = searchParams.get("refId") || null;
+ 
 
   const [formData, setFormData] = useState({
     name: "",
@@ -19,6 +23,7 @@ const SignUp = () => {
     email: "",
     password: "",
     passwordConfirm: "",
+    referralId: refId,
   });
 
   // handle input change

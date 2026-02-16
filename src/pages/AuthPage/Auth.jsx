@@ -4,7 +4,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgetPassword from "./ForgetPassword";
 import CompleteProfile from "./CompletProfile";
-import { FaTimes } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import heroBg from '../../assets/bgImage/heroBg.webp';
 
@@ -46,7 +46,7 @@ const Auth = () => {
 
 
         <Link to="/" className="absolute z-20 top-5 left-5 text-white text-2xl hover:text-emerald-800">
-          <FaTimes />
+          <FaArrowLeftLong />
         </Link>
 
         <div className="relative z-10 flex flex-col justify-center px-14 text-white">
@@ -74,8 +74,8 @@ const Auth = () => {
 
       {/* RIGHT SIDE – SCROLLABLE */}
       <div className="relative h-screen flex items-center justify-center bg-gray-100 px-6">
-        <Link to="/" className="absolute top-5 left-5 text-black lg:hidden text-2xl">
-          <FaTimes />
+        <Link to="/" className="absolute top-2 left-8 text-black lg:hidden text-2xl">
+          <FaArrowLeftLong />
         </Link>
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 flex flex-col h-full">
 

@@ -70,7 +70,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 onClick={onClose}
                 className={`flex items-center gap-3 px-5 py-3 rounded-lg transition
                   ${isActive
-                    ? "bg-gradient-to-r from-emerald-600 to-blue-600 text-white shadow"
+                    ? "bg-gradient-to-r from-emerald-800 to-emerald-900 text-white shadow"
                     : "text-gray-300 hover:bg-gray-800 hover:text-white"
                   }`}
               >

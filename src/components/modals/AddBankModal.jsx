@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 const AddWalletModal = ({ onClose, onSuccess }) => {
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    walletNetwork: "",
-    walletAddress: "",
+    bankName: "",
+    accountNumber: "",
   });
 
   /* =====================
@@ -24,14 +24,16 @@ const AddWalletModal = ({ onClose, onSuccess }) => {
      VALIDATION
   ===================== */
   const validate = () => {
-    const { walletNetwork, walletAddress } = formData;
+    console.log(formData);
+    
+    const { bankName, accountNumber } = formData;
 
-    if (!walletNetwork || !walletAddress) {
+    if (!bankName || !accountNumber) {
       toast.error("All fields are required");
       return false;
     }
 
-    if (walletAddress.length < 10) {
+    if (accountNumber.length < 10) {
       toast.error("Invalid wallet address");
       return false;
     }
@@ -85,10 +87,10 @@ const AddWalletModal = ({ onClose, onSuccess }) => {
               Wallet Network
             </label>
             <select
-              name="walletNetwork"
-              value={formData.walletNetwork}
+              name="bankName"
+              value={formData.bankName}
               onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             >
               <option value="">Select network</option>
               <option value="BTC">Bitcoin (BTC)</option>
@@ -105,11 +107,11 @@ const AddWalletModal = ({ onClose, onSuccess }) => {
             </label>
             <input
               type="text"
-              name="walletAddress"
+              name="accountNumber"
               placeholder="Enter wallet address"
-              value={formData.walletAddress}
+              value={formData.accountNumber}
               onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             />
           </div>
 
@@ -118,7 +120,7 @@ const AddWalletModal = ({ onClose, onSuccess }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 border rounded-lg py-2 text-sm hover:bg-gray-50"
+              className="w-1/2 border border-emerald-300 rounded-lg py-2 text-sm hover:bg-gray-50"
             >
               Cancel
             </button>

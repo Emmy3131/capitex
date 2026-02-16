@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import api from "../../../Library/api";
 import PageLoader from "../../../components/Loader/PageLoader";
 import { toast } from "react-toastify";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Deposit = () => {
   const [paymentOptions, setPaymentOptions] = useState([]);
@@ -46,14 +48,12 @@ const Deposit = () => {
 
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
     if (!allowedTypes.includes(file.type)) {
       toast.error("Only JPG, PNG or PDF files allowed");
       return;
     }
 
-    // Validate size (2MB max)
     if (file.size > 2 * 1024 * 1024) {
       toast.error("Receipt must be less than 2MB");
       return;
@@ -82,22 +82,17 @@ const Deposit = () => {
       formData.append("amount", amount);
       formData.append("paymentOptionId", selectedOption._id);
       formData.append("type", "deposit");
-      formData.append("receipt", receipt); // ✅ IMPORTANT
+      formData.append("receipt", receipt);
 
-      const res = await api.post(
-        "/users/me/transactions",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await api.post("/users/me/transactions", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.data.status === "success") {
         toast.success("Deposit submitted successfully");
 
-        // Reset form
         setAmount("");
         setSelectedOption(null);
         setReceipt(null);
@@ -115,101 +110,131 @@ const Deposit = () => {
   if (loading) return <PageLoader />;
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 rounded-xl shadow space-y-6">
-      {/* TITLE */}
-      <div>
-        <h2 className="text-xl font-semibold">Make a Deposit</h2>
-        <p className="text-sm text-gray-500">
-          Select a payment option and upload receipt
-        </p>
-      </div>
+    <div className="relative min-h-screen bg-gray-50 py-6">
 
-      {/* AMOUNT */}
-      <input
-        type="number"
-        placeholder="Enter amount"
-        className="w-full border rounded-lg p-3 border-gray-300"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-
-      {/* PAYMENT OPTIONS */}
-      <select
-        className="w-full border rounded-lg p-3 border-gray-300"
-        onChange={(e) => handleSelect(e.target.value)}
-        value={selectedOption?._id || ""}
+      {/* BACK BUTTON */}
+      <Link
+        to={"/transactions"}
+        className="
+          fixed top-18 md:top-5 left-1 md:left-69
+          flex items-center justify-center
+          w-10 h-10 md:w-11 md:h-11
+          rounded-full
+          bg-white
+          text-emerald-600
+          shadow-md
+          border border-emerald-100
+          hover:bg-emerald-600
+          hover:text-white
+          hover:shadow-lg
+          active:scale-95
+          transition-all duration-200
+          z-50
+        "
       >
-        <option value="">Select Payment Method</option>
-        {paymentOptions.map((opt) => (
-          <option key={opt._id} value={opt._id}>
-            {opt.payOption}
-          </option>
-        ))}
-      </select>
+        <FaArrowLeftLong className="text-lg md:text-xl" />
+      </Link>
 
-      {/* DETAILS */}
-      {selectedOption && (
-        <div className="bg-gray-50 p-4 rounded-xl space-y-4">
-          <div>
-            <p className="text-xs text-gray-500">Bank / Wallet</p>
-            <p className="font-semibold border-gray-300">{selectedOption.bank}</p>
-          </div>
+      {/* MAIN CARD */}
+      <div className="md:w-4xl max-w-xl mx-auto bg-white p-6 rounded-xl shadow space-y-6">
 
-          <div>
-            <p className="text-xs text-gray-500">Account / Address</p>
-            <div className="flex justify-between items-center gap-2">
-              <p className="font-mono text-sm break-all">
-                {selectedOption.accountNumber}
-              </p>
-              <button
-                onClick={() =>
-                  copyToClipboard(selectedOption.accountNumber)
-                }
-                className="text-emerald-600 text-xs "
-              >
-                Copy
-              </button>
+        {/* TITLE */}
+        <div>
+          <h2 className="text-xl font-semibold">Make a Deposit</h2>
+          <p className="text-sm text-gray-500">
+            Select a payment option and upload receipt
+          </p>
+        </div>
+
+        {/* AMOUNT */}
+        <input
+          type="number"
+          placeholder="Enter amount"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+
+        {/* PAYMENT OPTIONS */}
+        <select
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+          onChange={(e) => handleSelect(e.target.value)}
+          value={selectedOption?._id || ""}
+        >
+          <option value="">Select Payment Method</option>
+          {paymentOptions.map((opt) => (
+            <option key={opt._id} value={opt._id}>
+              {opt.payOption}
+            </option>
+          ))}
+        </select>
+
+        {/* DETAILS */}
+        {selectedOption && (
+          <div className="border border-emerald-300 rounded-lg px-3 py-4 text-sm font-mono space-y-3">
+
+            <div>
+              <p className="text-xs text-gray-500">Wallet Network</p>
+              <p className="font-semibold">{selectedOption.bank}</p>
             </div>
-          </div>
 
-          {selectedOption.image && (
-            <div className="flex justify-center">
-              <img
-                src={selectedOption.image}
-                alt="QR"
-                className="w-44 h-44 object-contain border-gray-300"
-              />
+            <div>
+              <p className="text-xs text-gray-500">Wallet Address</p>
+              <div className="flex justify-between items-center gap-2">
+                <p className="font-mono text-sm break-all">
+                  {selectedOption.accountNumber}
+                </p>
+                <button
+                  onClick={() =>
+                    copyToClipboard(selectedOption.accountNumber)
+                  }
+                  className="text-emerald-600 text-xs font-semibold"
+                >
+                  Copy
+                </button>
+              </div>
             </div>
+
+            {selectedOption.image && (
+              <div className="flex justify-center">
+                <img
+                  src={selectedOption.image}
+                  alt="QR"
+                  className="w-44 h-44 object-contain border border-emerald-300 rounded-lg p-2"
+                />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* RECEIPT UPLOAD */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Upload Payment Receipt
+          </label>
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            onChange={handleReceiptChange}
+            className="w-full border border-emerald-300 rounded-lg p-2"
+          />
+          {receipt && (
+            <p className="text-xs text-green-600 mt-1">
+              {receipt.name} selected
+            </p>
           )}
         </div>
-      )}
 
-      {/* RECEIPT UPLOAD */}
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Upload Payment Receipt
-        </label>
-        <input
-          type="file"
-          accept="image/*,.pdf"
-          onChange={handleReceiptChange}
-          className="w-full border border-gray-300 rounded-lg p-2"
-        />
-        {receipt && (
-          <p className="text-xs text-green-600 mt-1">
-            {receipt.name} selected
-          </p>
-        )}
+        {/* SUBMIT */}
+        <button
+          disabled={!amount || !selectedOption || !receipt || submitting}
+          onClick={handleDeposit}
+          className="w-full bg-emerald-600 disabled:opacity-50 text-white py-3 rounded-lg font-medium hover:bg-emerald-700 transition"
+        >
+          {submitting ? "Processing..." : "I Have Made Payment"}
+        </button>
+
       </div>
-
-      {/* SUBMIT */}
-      <button
-        disabled={!amount || !selectedOption || !receipt || submitting}
-        onClick={handleDeposit}
-        className="w-full bg-emerald-600 disabled:opacity-50 text-white py-3 rounded-lg font-medium"
-      >
-        {submitting ? "Processing..." : "I Have Made Payment"}
-      </button>
     </div>
   );
 };

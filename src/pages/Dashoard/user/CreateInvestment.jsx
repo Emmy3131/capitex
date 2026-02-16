@@ -180,7 +180,9 @@ const CreateInvestment = () => {
             name="planId"
             value={formData.planId}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border-2 border-emerald-200 rounded px-3 py-2 
+focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+
             required
           >
             <option value="">-- Select Plan --</option>
@@ -208,7 +210,9 @@ const CreateInvestment = () => {
             name="amount"
             value={formData.amount}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border-2 border-emerald-200 rounded px-3 py-2 
+focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200
+"
             required
           />
         </div>

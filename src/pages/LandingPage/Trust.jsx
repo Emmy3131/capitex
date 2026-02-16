@@ -8,21 +8,23 @@ const TrustSection = () => {
         {/* Section Heading */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">
-            Trusted by Investors Worldwide
+            Trusted by Investors Across the Globe
           </h2>
           <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
-            Capitex is built on transparency, security, and professional crypto
-            investment strategies designed for long-term growth.
+            Capitex operates with a strong commitment to transparency, security, and
+            professionally managed crypto investment strategies tailored for
+            sustainable, long-term growth.
           </p>
         </div>
+
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
           {/* Users */}
           <div data-aos="fade-up"
-  data-aos-offset="120"
-  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
+            data-aos-offset="120"
+            data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <Users className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">50K+</h3>
             <p className="text-gray-600 text-sm">Active Investors</p>
@@ -30,8 +32,8 @@ const TrustSection = () => {
 
           {/* Assets */}
           <div data-aos="fade-up"
-  data-aos-offset="120"
-  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
+            data-aos-offset="120"
+            data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <TrendingUp className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">$120M+</h3>
             <p className="text-gray-600 text-sm">Assets Managed</p>
@@ -39,8 +41,8 @@ const TrustSection = () => {
 
           {/* Security */}
           <div data-aos="fade-up"
-  data-aos-offset="120"
-  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
+            data-aos-offset="120"
+            data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <Lock className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">Bank-Grade</h3>
             <p className="text-gray-600 text-sm">Security Infrastructure</p>
@@ -48,8 +50,8 @@ const TrustSection = () => {
 
           {/* Compliance */}
           <div data-aos="fade-up"
-  data-aos-offset="120"
-  data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
+            data-aos-offset="120"
+            data-aos-delay="100" className="bg-white p-6 rounded-2xl shadow-sm text-center">
             <ShieldCheck className="w-8 h-8 mx-auto text-green-600" />
             <h3 className="text-2xl font-bold mt-4">100%</h3>
             <p className="text-gray-600 text-sm">Transparent Operations</p>

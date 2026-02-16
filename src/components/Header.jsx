@@ -45,7 +45,7 @@ const Header = () => {
                   isActive ? "text-green-600 font-semibold" : "hover:text-green-600"
                 }
               >
-                About
+                About Us
               </NavLink>
             </li>
 
