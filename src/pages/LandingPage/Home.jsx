@@ -9,7 +9,7 @@ import TradingViewWidget from "./TradingViewWidget";
 
 const Home = () => {
   return(
-    <div>
+    <div className="overFloating-hidden">
       <Hero />
       <Trust />
       <HowItWorks />
