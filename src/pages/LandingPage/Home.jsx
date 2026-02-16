@@ -13,8 +13,8 @@ const Home = () => {
       <Hero />
       <Trust /> 
       <HowItWorks />
-      {/* <FeaturesAndSecurity />
-      <TradingViewWidget />
+      <FeaturesAndSecurity />
+      {/* <TradingViewWidget />
       <Testimony />
       <FinalCTA />  */}
       
