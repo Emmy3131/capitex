@@ -33,7 +33,7 @@ const LiveNotifications = () => {
 
   return (
     <div
-      className={`fixed bottom-6 left-6 transition-all duration-500 ${
+      className={`fixed top-6 right-6 transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
@@ -42,7 +42,7 @@ const LiveNotifications = () => {
           <span className="font-semibold">{notification.name}</span>{" "}
           {notification.action}{" "}
           <span className="font-semibold text-green-600">
-            ₦{notification.amount.toLocaleString()}
+            ${notification.amount.toLocaleString()}
           </span>
         </p>
       </div>
