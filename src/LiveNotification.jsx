@@ -33,11 +33,11 @@ const LiveNotifications = () => {
 
   return (
     <div
-      className={`fixed top-16 md:top-6 right-3 z-50 transition-all duration-500 ${
+      className={`fixed top-16 md:top-6 md:right-6 right-3 z-50 transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
-      <div className="bg-white shadow-xl rounded-xl px-4 py-3 border">
+      <div className="bg-white shadow-xl rounded-xl px-4 py-3">
         <p className="text-sm">
           <span className="font-semibold">{notification.name}</span>{" "}
           {notification.action}{" "}
