@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import CryptoPrices from "./CryptoPrice.jsx"; 
 import { FaWallet, FaChartLine, FaUserFriends } from "react-icons/fa";
 import MarketOverview from "./MarketOverview";
+import LiveNotifications from "../../../LiveNotification.jsx";
 
 
 
@@ -83,6 +84,8 @@ const UserDashboard = () => {
           Here’s what’s happening with your account today
         </p>
       </div>
+
+      <LiveNotifications />
 
       {/* ===== Stats Cards ===== */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
