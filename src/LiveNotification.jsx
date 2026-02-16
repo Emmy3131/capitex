@@ -1,12 +1,37 @@
 import { useEffect, useState } from "react";
 
 const activities = [
-  { name: "Emmanuel", action: "withdrew", amount: 50000 },
-  { name: "Sophia", action: "invested", amount: 120000 },
-  { name: "James", action: "deposited", amount: 30000 },
-  { name: "Aisha", action: "withdrew", amount: 85000 },
-  { name: "Daniel", action: "invested", amount: 200000 },
+  { name: "Liam", action: "withdrew", amount: 75000 },
+  { name: "Olivia", action: "invested", amount: 150000 },
+  { name: "Noah", action: "deposited", amount: 42000 },
+  { name: "Emma", action: "withdrew", amount: 98000 },
+  { name: "Lucas", action: "invested", amount: 210000 },
+
+  { name: "Amelia", action: "deposited", amount: 56000 },
+  { name: "Ethan", action: "withdrew", amount: 87000 },
+  { name: "Isabella", action: "invested", amount: 134000 },
+  { name: "Mason", action: "deposited", amount: 39000 },
+  { name: "Mia", action: "withdrew", amount: 66000 },
+
+  { name: "Alexander", action: "invested", amount: 250000 },
+  { name: "Charlotte", action: "deposited", amount: 47000 },
+  { name: "Benjamin", action: "withdrew", amount: 91000 },
+  { name: "Sophia", action: "invested", amount: 175000 },
+  { name: "Daniel", action: "deposited", amount: 52000 },
+
+  { name: "Henry", action: "withdrew", amount: 83000 },
+  { name: "Ava", action: "invested", amount: 142000 },
+  { name: "Sebastian", action: "deposited", amount: 61000 },
+  { name: "Elijah", action: "withdrew", amount: 79000 },
+  { name: "Scarlett", action: "invested", amount: 198000 },
+
+  { name: "Mateo", action: "deposited", amount: 45000 },
+  { name: "Aria", action: "withdrew", amount: 72000 },
+  { name: "James", action: "invested", amount: 223000 },
+  { name: "Evelyn", action: "deposited", amount: 54000 },
+  { name: "Michael", action: "withdrew", amount: 88000 }
 ];
+
 
 const LiveNotifications = () => {
   const [notification, setNotification] = useState(null);
