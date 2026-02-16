@@ -14,9 +14,9 @@ const Home = () => {
       <Trust /> 
       <HowItWorks />
       <FeaturesAndSecurity />
-      <TradingViewWidget />
-      {/* <Testimony />
-      <FinalCTA />  */}
+      {/* <TradingViewWidget /> */}
+      <Testimony />
+      {/* <FinalCTA />  */}
       
       
     </div>
