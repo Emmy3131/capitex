@@ -4,12 +4,14 @@ import HowItWorks from "./HowItWorks";
 import FeaturesAndSecurity from "./FeaturesAndSecurity";
 import Testimony from "./Testimony";
 import FinalCTA from "./FinalCTA";
+import LiveNotifications from "../../LiveNotification";
 
 
 
 const Home = () => {
   return(
     <div className="overFloating-hidden">
+      <LiveNotifications />
       <Hero />
       <Trust /> 
       <HowItWorks />
