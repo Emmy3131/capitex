@@ -3,7 +3,7 @@ import { ShieldCheck, Users, TrendingUp, Lock } from "lucide-react";
 const TrustSection = () => {
   return (
     <section className="bg-gray-50 py-16">
-      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6">
+      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6 overflow-hidden">
 
         {/* Section Heading */}
         <div className="text-center mb-12">

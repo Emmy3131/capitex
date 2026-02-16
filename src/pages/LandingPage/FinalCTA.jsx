@@ -19,7 +19,7 @@ const FinalCTA = () => {
       {/* ===== CONTENT ===== */}
       <div
         data-aos="fade-up"
-        className="relative z-10 max-w-6xl mx-auto px-6 text-center text-white"
+        className=" relative z-10 max-w-6xl mx-auto px-6 text-center text-white"
       >
         {/* Headline */}
         <h2 className="text-4xl md:text-5xl font-extrabold mb-6">

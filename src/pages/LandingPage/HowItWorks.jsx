@@ -3,7 +3,7 @@ import { UserPlus, Wallet, BarChart3, CheckCircle } from "lucide-react";
 const HowItWorks = () => {
   return (
     <section className="bg-white py-20">
-      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6">
+      <div data-aos="fade-up" className="max-w-7xl mx-auto px-6 overflow-hidden">
 
         {/* Heading */}
         <div className="text-center mb-14">
