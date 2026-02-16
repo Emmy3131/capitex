@@ -20,6 +20,7 @@ const Deposit = () => {
       setLoading(true);
       try {
         const res = await api.get("/paymentOptions");
+
         if (res.data.status === "success") {
           setPaymentOptions(res.data.data.paymentOptions);
         } else {
@@ -45,12 +46,12 @@ const Deposit = () => {
   /* ================= RECEIPT HANDLER ================= */
   const handleReceiptChange = (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+
     if (!allowedTypes.includes(file.type)) {
-      toast.error("Only JPG, PNG or PDF files allowed");
+      toast.error("Only JPG, PNG or PDF allowed");
       return;
     }
 
@@ -65,7 +66,7 @@ const Deposit = () => {
   /* ================= COPY ================= */
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard");
+    toast.success("Wallet copied");
   };
 
   /* ================= CREATE TRANSACTION ================= */
@@ -142,7 +143,7 @@ const Deposit = () => {
         <div>
           <h2 className="text-xl font-semibold">Make a Deposit</h2>
           <p className="text-sm text-gray-500">
-            Select a payment option and upload receipt
+            Select crypto and upload receipt after payment
           </p>
         </div>
 
@@ -161,10 +162,12 @@ const Deposit = () => {
           onChange={(e) => handleSelect(e.target.value)}
           value={selectedOption?._id || ""}
         >
-          <option value="">Select Payment Method</option>
+          <option value="">Select Crypto Payment</option>
+
           {paymentOptions.map((opt) => (
             <option key={opt._id} value={opt._id}>
-              {opt.payOption}
+              {opt.cryptoName || opt.bank}
+              {opt.network ? ` - ${opt.network}` : ""}
             </option>
           ))}
         </select>
@@ -173,20 +176,40 @@ const Deposit = () => {
         {selectedOption && (
           <div className="border border-emerald-300 rounded-lg px-3 py-4 text-sm font-mono space-y-3">
 
+            {/* METHOD */}
             <div>
-              <p className="text-xs text-gray-500">Wallet Network</p>
-              <p className="font-semibold">{selectedOption.bank}</p>
+              <p className="text-xs text-gray-500">Payment Method</p>
+              <p className="font-semibold">
+                {selectedOption.cryptoName ||
+                  selectedOption.payOption}
+              </p>
             </div>
 
+            {/* NETWORK */}
+            <div>
+              <p className="text-xs text-gray-500">Network</p>
+              <p className="font-semibold">
+                {selectedOption.network ||
+                  selectedOption.bank}
+              </p>
+            </div>
+
+            {/* WALLET */}
             <div>
               <p className="text-xs text-gray-500">Wallet Address</p>
+
               <div className="flex justify-between items-center gap-2">
                 <p className="font-mono text-sm break-all">
-                  {selectedOption.accountNumber}
+                  {selectedOption.walletAddress ||
+                    selectedOption.accountNumber}
                 </p>
+
                 <button
                   onClick={() =>
-                    copyToClipboard(selectedOption.accountNumber)
+                    copyToClipboard(
+                      selectedOption.walletAddress ||
+                        selectedOption.accountNumber
+                    )
                   }
                   className="text-emerald-600 text-xs font-semibold"
                 >
@@ -195,29 +218,39 @@ const Deposit = () => {
               </div>
             </div>
 
+            {/* QR IMAGE */}
             {selectedOption.image && (
               <div className="flex justify-center">
                 <img
-                  src={selectedOption.image}
+                  src={
+                    selectedOption.image.startsWith("http")
+                      ? selectedOption.image
+                      : `${
+                          import.meta.env.VITE_API_URL
+                        }/${selectedOption.image}`
+                  }
                   alt="QR"
                   className="w-44 h-44 object-contain border border-emerald-300 rounded-lg p-2"
                 />
               </div>
             )}
+
           </div>
         )}
 
-        {/* RECEIPT UPLOAD */}
+        {/* RECEIPT */}
         <div>
           <label className="block text-sm font-medium mb-1">
             Upload Payment Receipt
           </label>
+
           <input
             type="file"
             accept="image/*,.pdf"
             onChange={handleReceiptChange}
             className="w-full border border-emerald-300 rounded-lg p-2"
           />
+
           {receipt && (
             <p className="text-xs text-green-600 mt-1">
               {receipt.name} selected
