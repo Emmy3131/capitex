@@ -12,8 +12,8 @@ const Home = () => {
     <div className="overFloating-hidden">
       <Hero />
       <Trust /> 
-      {/* <HowItWorks />
-      <FeaturesAndSecurity />
+      <HowItWorks />
+      {/* <FeaturesAndSecurity />
       <TradingViewWidget />
       <Testimony />
       <FinalCTA />  */}
