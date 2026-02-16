@@ -16,7 +16,7 @@ const Home = () => {
       <FeaturesAndSecurity />
       {/* <TradingViewWidget /> */}
       <Testimony />
-      {/* <FinalCTA />  */}
+      <FinalCTA /> 
       
       
     </div>
