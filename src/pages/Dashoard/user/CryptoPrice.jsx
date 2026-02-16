@@ -81,7 +81,7 @@ const CryptoPrices = () => {
                     : "text-gray-400"
                 }`}
               >
-                {coin.price_change_percentage_24h.toFixed(2)}%
+                {coin.price_change_percentage_24h}%
               </span>
             </div>
           ))}

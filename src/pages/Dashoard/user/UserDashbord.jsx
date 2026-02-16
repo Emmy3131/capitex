@@ -8,8 +8,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoPrices from "./CryptoPrice.jsx"; 
 import { FaWallet, FaChartLine, FaUserFriends } from "react-icons/fa";
-
-import TradingViewWidget from "./TradingViewWidget";
 import MarketOverview from "./MarketOverview";
 
 
