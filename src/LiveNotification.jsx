@@ -49,7 +49,7 @@ const LiveNotifications = () => {
       setTimeout(() => {
         setVisible(false);
       }, 4000);
-    }, 6000);
+    }, 9000);
 
     return () => clearInterval(interval);
   }, []);
