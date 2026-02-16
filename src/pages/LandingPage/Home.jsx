@@ -14,8 +14,8 @@ const Home = () => {
       <Trust /> 
       <HowItWorks />
       <FeaturesAndSecurity />
-      {/* <TradingViewWidget />
-      <Testimony />
+      <TradingViewWidget />
+      {/* <Testimony />
       <FinalCTA />  */}
       
       
