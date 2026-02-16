@@ -76,16 +76,19 @@ const UserDashboard = () => {
     <div className="space-y-4">
 
       {/* ===== Welcome ===== */}
-      <div>
-        <h1 className="text-2xl font-bold">
+      <div className="flex justify-between">
+       <div>
+         <h1 className="text-2xl font-bold">
           Welcome back, {user?.name?.split(" ")[0] || "Investor"}!
         </h1>
         <p className="text-gray-500 text-sm">
           Here’s what’s happening with your account today
         </p>
+       </div>
+         <LiveNotifications />
       </div>
 
-      <LiveNotifications />
+     
 
       {/* ===== Stats Cards ===== */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
