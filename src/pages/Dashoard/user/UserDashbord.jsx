@@ -187,7 +187,7 @@ const UserDashboard = () => {
 
       {/* TradingView Widget  */}
       <div className="bg-white rounded-xl shadow p-6 w-4xl mx-auto">
-        <MarketOverview />
+        {/* <MarketOverview /> */}
       </div>
       {/* <TradingViewWidget /> */}
     </div>
