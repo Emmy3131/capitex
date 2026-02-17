@@ -11,7 +11,6 @@ import LiveNotifications from "../../LiveNotification";
 const Home = () => {
   return(
     <div className="overFloating-hidden">
-      <LiveNotifications />
       <Hero />
       <Trust /> 
       <HowItWorks />
