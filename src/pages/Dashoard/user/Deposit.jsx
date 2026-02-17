@@ -199,7 +199,7 @@ const Deposit = () => {
         <input
           type="text"
           placeholder="BTC equivalent"
-          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono bg-gray-100"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
           value={btcEquivalent ? `${btcEquivalent} BTC` : ""}
           readOnly
         />
