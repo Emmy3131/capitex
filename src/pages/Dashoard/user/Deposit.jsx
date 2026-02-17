@@ -10,6 +10,8 @@ const Deposit = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [amount, setAmount] = useState("");
   const [receipt, setReceipt] = useState(null);
+  const [btcEquivalent, setBtcEquivalent] = useState("");
+  const [btcPrice, setBtcPrice] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -36,6 +38,44 @@ const Deposit = () => {
 
     fetchPaymentOptions();
   }, []);
+
+  /* ================= FETCH BTC PRICE ================= */
+  useEffect(() => {
+    const fetchBTCPrice = async () => {
+      try {
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+
+        const data = await res.json();
+
+        setBtcPrice(data.bitcoin.usd);
+      } catch (err) {
+        console.error("BTC price error", err);
+      }
+    };
+
+    fetchBTCPrice();
+
+    // refresh every 60 seconds
+    const interval = setInterval(fetchBTCPrice, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+  /* ================= CALCULATE BTC ================= */
+  useEffect(() => {
+    if (!amount || !btcPrice) {
+      setBtcEquivalent("");
+      return;
+    }
+
+    const btc = Number(amount) / btcPrice;
+
+    setBtcEquivalent(btc.toFixed(6)); // 6 decimals
+  }, [amount, btcPrice]);
+
 
   /* ================= HANDLE SELECT ================= */
   const handleSelect = (id) => {
@@ -150,10 +190,18 @@ const Deposit = () => {
         {/* AMOUNT */}
         <input
           type="number"
-          placeholder="Enter amount"
+          placeholder="Enter amount USD"
           className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="BTC equivalent"
+          className="w-full border border-emerald-300 rounded-lg px-3 py-2 text-sm font-mono bg-gray-100"
+          value={btcEquivalent ? `${btcEquivalent} BTC` : ""}
+          readOnly
         />
 
         {/* PAYMENT OPTIONS */}
@@ -208,7 +256,7 @@ const Deposit = () => {
                   onClick={() =>
                     copyToClipboard(
                       selectedOption.walletAddress ||
-                        selectedOption.accountNumber
+                      selectedOption.accountNumber
                     )
                   }
                   className="text-emerald-600 text-xs font-semibold"
@@ -225,9 +273,8 @@ const Deposit = () => {
                   src={
                     selectedOption.image.startsWith("http")
                       ? selectedOption.image
-                      : `${
-                          import.meta.env.VITE_API_URL
-                        }/${selectedOption.image}`
+                      : `${import.meta.env.VITE_API_URL
+                      }/${selectedOption.image}`
                   }
                   alt="QR"
                   className="w-44 h-44 object-contain border border-emerald-300 rounded-lg p-2"
