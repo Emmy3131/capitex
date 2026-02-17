@@ -58,7 +58,7 @@ const LiveNotifications = () => {
 
   return (
     <div
-      className={`fixed bottom-16 md:bottom-6 md:right-6 right-50 z-50 transition-all duration-500 ${
+      className={`fixed bottom-16 md:bottom-6 md:right-6 right-25 z-50 transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
