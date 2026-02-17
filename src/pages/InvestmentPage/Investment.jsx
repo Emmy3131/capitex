@@ -29,24 +29,7 @@ const Investment = () => {
       setLoading(false);
     }
   };
-
-  const getloggedInUser = async () => {
-    try {
-      const res = await api.get("/users/me");
-      if (res.data.status === "success") {
-        setUser(res.data.data.user);
-        if(!res.data.data.user){
-          navigate("/auth?tab=signIn");
-        }else{
-          navigate("/userInvestments");
-        }
-      }
-    } catch (err) {
-      console.error("Failed to fetch user data", err);
-      return null;
-    }
-  };
-  
+ 
   useEffect(() => {
     getPlans();
   }, []);
@@ -144,11 +127,6 @@ const Investment = () => {
         ))}
       </div>
 
-      {/* DISCLAIMER */}
-      <p className="text-center text-xs text-gray-500 max-w-3xl mx-auto pb-6">
-        *Investments involve risk. Returns are projected and not guaranteed.
-        Please invest responsibly.
-      </p>
     </div>
   );
 };

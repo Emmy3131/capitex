@@ -62,7 +62,7 @@ const AppRoute = () => {
         <Route element={<GuestLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/investment" element={<Investment />} />
+          <Route path="/investmentPlan" element={<Investment />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/support" element={<Support />} />
           <Route path="/services" element={<Service />} />
