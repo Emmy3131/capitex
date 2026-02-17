@@ -141,7 +141,7 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  to="/investmentPlans"
+                  to="/investmentPlan"
                   className={({ isActive }) =>
                     isActive ? "text-green-600 font-bold" : "hover:text-green-600"
                   }
