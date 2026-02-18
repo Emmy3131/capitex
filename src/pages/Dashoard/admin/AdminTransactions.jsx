@@ -10,13 +10,10 @@ const AdminTransactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [selectedTx, setSelectedTx] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // 👇 THIS CONTROLS WHICH BUTTON IS LOADING
   const [actionLoading, setActionLoading] = useState(null);
-
   const [showReceipt, setShowReceipt] = useState(false);
 
-  /* ================= FETCH ALL TRANSACTIONS ================= */
+  /* ================= FETCH TRANSACTIONS ================= */
   const fetchTransactions = async () => {
     setLoading(true);
     try {
@@ -38,7 +35,7 @@ const AdminTransactions = () => {
 
   /* ================= APPROVE ================= */
   const approveTransaction = async (id) => {
-    setActionLoading("approve"); // 👈 IMPORTANT
+    setActionLoading("approve");
 
     try {
       const res = await api.patch(`/transactions/${id}/action/approve`);
@@ -65,7 +62,7 @@ const AdminTransactions = () => {
 
   /* ================= DECLINE ================= */
   const declineTransaction = async (id) => {
-    setActionLoading("decline"); // 👈 IMPORTANT
+    setActionLoading("decline");
 
     try {
       const res = await api.patch(`/transactions/${id}/action/decline`);
@@ -91,9 +88,6 @@ const AdminTransactions = () => {
   };
 
   if (loading) return <PageLoader />;
-
-  const isDeposit = selectedTx?.type === "deposit";
-  const isWithdrawal = selectedTx?.type === "withdrawal";
 
   return (
     <div className="space-y-6">
@@ -156,7 +150,7 @@ const AdminTransactions = () => {
         </table>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* ================= TRANSACTION MODAL ================= */}
       {selectedTx && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
           <div className="bg-white max-w-xl w-full rounded-xl p-6 space-y-6">
@@ -184,6 +178,27 @@ const AdminTransactions = () => {
                 </span>
               </div>
             </div>
+
+            {/* RECEIPT */}
+            {selectedTx.receipt && (
+              <div className="space-y-2">
+                <p className="text-sm font-semibold">Payment Receipt</p>
+
+                <img
+                  src={selectedTx.receipt}
+                  alt="receipt"
+                  className="w-24 h-24 object-cover rounded cursor-pointer"
+                  onClick={() => setShowReceipt(true)}
+                />
+
+                <button
+                  onClick={() => setShowReceipt(true)}
+                  className="text-blue-600 text-sm underline"
+                >
+                  View Full Receipt
+                </button>
+              </div>
+            )}
 
             {/* ACTION BUTTONS */}
             <div className="flex justify-end gap-3 pt-4 border-t">
@@ -223,6 +238,30 @@ const AdminTransactions = () => {
 
               <button
                 onClick={() => setSelectedTx(null)}
+                className="border px-4 py-2 rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ================= RECEIPT PREVIEW MODAL ================= */}
+      {showReceipt && selectedTx?.receipt && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl max-w-lg w-full space-y-4">
+
+            <img
+              src={selectedTx.receipt}
+              alt="Receipt"
+              className="w-full rounded-lg"
+            />
+
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowReceipt(false)}
                 className="border px-4 py-2 rounded-lg"
               >
                 Close
