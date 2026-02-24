@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("t");
+  let token = searchParams.get("t");
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
